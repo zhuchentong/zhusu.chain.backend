@@ -2,10 +2,10 @@ import grails.plugin.springsecurity.SpringSecurityService
 import zhusu.backend.user.LoginEventListener
 import zhusu.backend.user.LoginResponseJsonRender
 import zhusu.backend.user.MyUserDetailsService
-import zhusu.backend.user.UserPasswordEncoderListener
+import zhusu.backend.user.UserEncoderListener
 
 beans = {
-    userPasswordEncoderListener(UserPasswordEncoderListener)
+    userPasswordEncoderListener(UserEncoderListener)
     userDetailsService(MyUserDetailsService)
     accessTokenJsonRenderer(LoginResponseJsonRender) {
         usernamePropertyName = 'username'

@@ -14,6 +14,8 @@ class User implements Serializable {
     String username
     String password
     String displayName
+    String idCard
+    String ethAccount
     boolean enabled = true
     boolean passwordExpired = false
     boolean accountExpired = false
@@ -36,6 +38,8 @@ class User implements Serializable {
         username nullable: false, blank: false, maxSize: 11, unique: true
         password nullable: false, blank: false, password: true
         displayName nullable: false, blank: false, maxSize: 30, unique: true
+        idCard nullable: true
+        ethAccount nullable: true, size: 40..40
     }
 
     static mapping = {
@@ -46,18 +50,11 @@ class User implements Serializable {
         password column: 'user_password', comment: '密码'
         displayName comment: '昵称'
         enabled comment: '是否有效'
+        idCard comment: '身份证号'
+        ethAccount comment: '用户以太坊账户', index: 'idx_user_eth_account'
         passwordExpired comment: '密码过期'
         dateCreated comment: '创建时间', index: 'idx_date_created'
     }
 
     static transients = ['accountExpired', 'accountLocked']
-
-    Map asMap() {
-        [
-                id           : this.id
-                , displayName: this.displayName
-                , address    : this.address
-                , username   : this.username
-        ]
-    }
 }

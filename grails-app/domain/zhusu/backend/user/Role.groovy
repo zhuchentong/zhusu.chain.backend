@@ -14,7 +14,7 @@ class Role implements Serializable {
     String authority
 
     static constraints = {
-        authority nullable: false, blank: false, unique: true
+        authority nullable: false, blank: false, unique: true, inList: validRoles()
     }
 
     static mapping = {
@@ -25,8 +25,9 @@ class Role implements Serializable {
 
     static List<String> validRoles() {
         [
-                'ROLE_ADMIN'  // 管理员
-                , 'ROLE_YH'   // 用户
+                'ROLE_ADMIN'     // 管理员
+                , 'ROLE_YH'      // 用户
+                , 'ROLE_SELLER'  // 商家（酒店/民宿）
         ]
     }
 

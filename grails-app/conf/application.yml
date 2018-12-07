@@ -45,6 +45,8 @@ aliyun:
         dir: ${ALIYUN_OSS_DIR:}
         cdnUrl: ${ALIYUN_OSS_CDNURL:mock}
 
+des_key: ${DES_KEY:secret12}
+
 ---
 grails:
     mime:

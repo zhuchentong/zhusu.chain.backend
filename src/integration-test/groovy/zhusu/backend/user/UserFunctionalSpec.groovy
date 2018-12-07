@@ -8,6 +8,7 @@ import grails.testing.mixin.integration.Integration
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import spock.lang.Specification
 import zhusu.backend.operation.SmsLog
+import zhusu.backend.util.CipherUtil
 import zhusu.backend.utils.TestUtils
 
 @Integration
@@ -25,25 +26,30 @@ class UserFunctionalSpec extends Specification {
         TestUtils.clearEnv()
     }
 
-    void "password在持久化后需要加密"() {
+    void "password和身份证号在持久化后需要加密"() {
         setup:
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder()
 
         when: 'insert'
-        User user = new User(username: 13572211111, password: '123456', displayName: 'user')
+        User user = new User(username: 13572211111, password: '123456', displayName: 'user', idCard: '123456789123456789')
                 .save(flush: true)
 
         then:
         user.password != '123456'
         encoder.matches('123456', user.password)
+        user.idCard != '123456789123456789'
+        CipherUtil.desDecrypt(user.idCard, 'secret12') == '123456789123456789'
 
         when: 'update'
         user.password = 'abcdef'
+        user.idCard = '023456789123456780'
         user.save(flush: true)
 
         then:
         user.password != 'abcdef'
         encoder.matches('abcdef', user.password)
+        user.idCard != '023456789123456780'
+        CipherUtil.desDecrypt(user.idCard, 'secret12') == '023456789123456780'
     }
 
     void "登录之后的响应应该包含用户的Displayname"() {
