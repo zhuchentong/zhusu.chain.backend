@@ -1,0 +1,135 @@
+---
+grails:
+    profile: rest-api
+    codegen:
+        defaultPackage: zhusu.backend
+    spring:
+        transactionManagement:
+            proxies: false
+    gorm:
+        reactor:
+            # Whether to translate GORM events into Reactor events
+            # Disabled by default for performance reasons
+            events: false
+        failOnError: true
+info:
+    app:
+        name: '@info.app.name@'
+        version: '@info.app.version@'
+        grailsVersion: '@info.app.grailsVersion@'
+spring:
+    main:
+        banner-mode: "off"
+    groovy:
+        template:
+            check-template-location: false
+
+# Spring Actuator Endpoints are Disabled by Default
+endpoints:
+    enabled: false
+# enable /info endpoint
+#    info.enabled: true
+    jmx:
+        enabled: true
+
+# Show full git.properties, not only git.branch, git.commit.id, and git.commit.time
+# See: https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html#production-ready-application-info-git
+management.info.git.mode: full
+
+aliyun:
+    oss:
+        endpoint: ${ALIYUN_OSS_ENDPOINT:oss-cn-hangzhou.aliyuncs.com}
+        accessKeyId: ${ALIYUN_OSS_ACCESS_KEY_ID:mock}
+        accessKeySeret: ${ALIYUN_OSS_ACCESS_KEY_SECRET:mock}
+        bucket: ${ALIYUN_OSS_BUCKET:mock}
+        dir: ${ALIYUN_OSS_DIR:}
+        cdnUrl: ${ALIYUN_OSS_CDNURL:mock}
+
+---
+grails:
+    mime:
+        disable:
+            accept:
+                header:
+                    userAgents:
+                        - Gecko
+                        - WebKit
+                        - Presto
+                        - Trident
+        types:
+            json:
+              - application/json
+              - text/json
+            hal:
+              - application/hal+json
+              - application/hal+xml
+            xml:
+              - text/xml
+              - application/xml
+            atom: application/atom+xml
+            css: text/css
+            csv: text/csv
+            js: text/javascript
+            rss: application/rss+xml
+            text: text/plain
+            all: '*/*'
+    urlmapping:
+        cache:
+            maxsize: 1000
+    controllers:
+        defaultScope: singleton
+    converters:
+        encoding: UTF-8
+    cors:
+        enabled: true
+
+---
+hibernate:
+    dialect: net.kaleidos.hibernate.PostgresqlExtensionsDialect
+    showSql: true
+    formatSql: true
+    cache:
+        queries: false
+        use_second_level_cache: false
+        use_query_cache: false
+dataSource:
+    type: com.zaxxer.hikari.HikariDataSource
+    pooled: true
+    driverClassName: org.postgresql.Driver
+    properties:
+        maximumPoolSize: 100
+        minimumIdle: 10
+
+---
+server:
+    port: 9002
+
+grails.controllers.upload:
+    maxFileSize: ${UPLOAD_MAX_FILE_SIZE:52428800}
+    maxRequestSize: ${UPLOAD_MAX_FILE_SIZE:52428800}
+
+grails.plugin.databasemigration:
+    updateOnStart: true
+    updateOnStartFileName: 'changelog.groovy'
+
+---
+environments:
+    test:
+        dataSource:
+            dbCreate: create-drop
+            url: jdbc:postgresql://127.0.0.1:5432/earth_test?useUnicode=true&characterEncoding=utf8
+            username: earth_admin
+            password: admin
+        grails.plugin.databasemigration.updateOnStart: false
+    development:
+        dataSource:
+            url: jdbc:postgresql://127.0.0.1:5432/earth?useUnicode=true&characterEncoding=utf8
+            username: earth_admin
+            password: admin
+            dbCreate: none
+    production:
+        dataSource:
+            url: ${JDBC_URL:jdbc:postgresql://127.0.0.1:5432/earth?useUnicode=true&characterEncoding=utf8}
+            username: ${DB_USER:earth_admin}
+            password: ${DB_PASS:admin}
+            dbCreate: none
