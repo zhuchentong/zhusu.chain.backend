@@ -220,6 +220,8 @@ class UserFunctionalSpec extends Specification {
             header('Authorization', "Bearer ${jwt}")
             json {
                 displayName = 'newName'
+                ethAccount = '627306090abab3a6e1400e9345bc60c78a8bef57'
+                idCard = '123456789123456789'
             }
         }
         user.refresh()
@@ -227,6 +229,8 @@ class UserFunctionalSpec extends Specification {
         then:
         response.status == 200
         user.displayName == 'newName'
+        user.ethAccount == '627306090abab3a6e1400e9345bc60c78a8bef57'
+        user.idCard == CipherUtil.desEncrypt('123456789123456789', 'secret12')
     }
 
     void "注册页面可发送验证码"() {

@@ -47,7 +47,7 @@ class UserController {
     def updatePersonalInfo() {
         User user = springSecurityService.currentUser
         JSONObject json = request.JSON
-        bindData(user, json, [include: ['displayName']])
+        bindData(user, json, [include: ['displayName', 'idCard', 'ethAccount']])
 
         try {
             userService.save(user)
