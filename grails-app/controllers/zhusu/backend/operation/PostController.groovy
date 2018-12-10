@@ -27,7 +27,7 @@ class PostController extends RestfulController<Post> {
 
         User user = springSecurityService.currentUser
         // 非管理员只能看到发布后的公告列表
-        if (user.hasAnyRole(['ROLE_YH', 'ROLE_SELLER'])) {
+        if (null == user || user.hasAnyRole(['ROLE_YH', 'ROLE_SELLER'])) {
             params.published = true
         }
 
@@ -50,7 +50,7 @@ class PostController extends RestfulController<Post> {
     }
 
     private boolean canBeReadBy(Post post, User user) {
-        post.published || user.hasRole('ROLE_ADMIN')
+        null == user ? post.published : post.published || user.hasRole('ROLE_ADMIN')
     }
 
 }

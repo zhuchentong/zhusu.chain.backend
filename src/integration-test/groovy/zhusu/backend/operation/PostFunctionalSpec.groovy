@@ -28,15 +28,19 @@ class PostFunctionalSpec extends Specification {
         RestBuilder rest = new RestBuilder()
         RestResponse response
         Post.withNewTransaction {
-            TestUtils.createUser(role, '13500000001')
+            if (null != role) {
+                TestUtils.createUser(role, '13500000001')
+            }
             new Post(title: 'title', content: 'content', published: true).save()
             new Post(title: 'title', content: 'content', published: false).save()
         }
 
         when:
-        String jwt = TestUtils.login(serverPort, '13500000001', '13500000001')
+        String jwt = null == role ?: TestUtils.login(serverPort, '13500000001', '13500000001')
         response = rest.get("http://localhost:${serverPort}/api/posts") {
-            header('Authorization', "Bearer ${jwt}")
+            if (null != role) {
+                header('Authorization', "Bearer ${jwt}")
+            }
         }
 
         then:
@@ -47,6 +51,7 @@ class PostFunctionalSpec extends Specification {
         'ROLE_ADMIN'  | 'published = true + false' | 2
         'ROLE_SELLER' | 'published = true'         | 1
         'ROLE_YH'     | 'published = true'         | 1
+        null          | 'published = true'         | 1
     }
 
     @Unroll
@@ -56,14 +61,18 @@ class PostFunctionalSpec extends Specification {
         RestResponse response
         Post post
         Post.withNewTransaction {
-            TestUtils.createUser(role, '13500000001')
+            if (null != role) {
+                TestUtils.createUser(role, '13500000001')
+            }
             post = new Post(title: 'title', content: 'content', published: published).save()
         }
 
         when:
-        String jwt = TestUtils.login(serverPort, '13500000001', '13500000001')
+        String jwt = null == role ?: TestUtils.login(serverPort, '13500000001', '13500000001')
         response = rest.get("http://localhost:${serverPort}/api/posts/${post.id}") {
-            header('Authorization', "Bearer ${jwt}")
+            if (null != role) {
+                header('Authorization', "Bearer ${jwt}")
+            }
         }
 
         then:
@@ -77,6 +86,8 @@ class PostFunctionalSpec extends Specification {
         'ROLE_SELLER' | false     | 403
         'ROLE_YH'     | true      | 200
         'ROLE_YH'     | false     | 403
+        null          | true      | 200
+        null          | false     | 403
     }
 
     @Unroll
@@ -142,6 +153,7 @@ class PostFunctionalSpec extends Specification {
         'ROLE_ADMIN'  | 'can'     | 201        | 200       | 204
         'ROLE_SELLER' | 'can not' | 403        | 403       | 403
         'ROLE_YH'     | 'can not' | 403        | 403       | 403
+        null          | 'can not' | 403        | 403       | 403
     }
 
 }
