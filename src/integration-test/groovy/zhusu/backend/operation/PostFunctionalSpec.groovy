@@ -36,7 +36,10 @@ class PostFunctionalSpec extends Specification {
         }
 
         when:
-        String jwt = null == role ?: TestUtils.login(serverPort, '13500000001', '13500000001')
+        String jwt
+        if(null != role) {
+            jwt = TestUtils.login(serverPort, '13500000001', '13500000001')
+        }
         response = rest.get("http://localhost:${serverPort}/api/posts") {
             if (null != role) {
                 header('Authorization', "Bearer ${jwt}")
@@ -68,7 +71,10 @@ class PostFunctionalSpec extends Specification {
         }
 
         when:
-        String jwt = null == role ?: TestUtils.login(serverPort, '13500000001', '13500000001')
+        String jwt
+        if(null != role) {
+            jwt = TestUtils.login(serverPort, '13500000001', '13500000001')
+        }
         response = rest.get("http://localhost:${serverPort}/api/posts/${post.id}") {
             if (null != role) {
                 header('Authorization', "Bearer ${jwt}")
