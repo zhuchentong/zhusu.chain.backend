@@ -50,7 +50,7 @@ class PostController extends RestfulController<Post> {
     }
 
     private boolean canBeReadBy(Post post, User user) {
-        null == user ? post.published : post.published || user.hasRole('ROLE_ADMIN')
+        post.published || user?.hasRole('ROLE_ADMIN')
     }
 
 }
