@@ -28,7 +28,7 @@ class PostFunctionalSpec extends Specification {
         RestBuilder rest = new RestBuilder()
         RestResponse response
         Post.withNewTransaction {
-            if (null != role) {
+            if (role) {
                 TestUtils.createUser(role, '13500000001')
             }
             new Post(title: 'title', content: 'content', published: true).save()
@@ -37,11 +37,11 @@ class PostFunctionalSpec extends Specification {
 
         when:
         String jwt
-        if(null != role) {
+        if(role) {
             jwt = TestUtils.login(serverPort, '13500000001', '13500000001')
         }
         response = rest.get("http://localhost:${serverPort}/api/posts") {
-            if (null != role) {
+            if (role) {
                 header('Authorization', "Bearer ${jwt}")
             }
         }
@@ -64,7 +64,7 @@ class PostFunctionalSpec extends Specification {
         RestResponse response
         Post post
         Post.withNewTransaction {
-            if (null != role) {
+            if (role) {
                 TestUtils.createUser(role, '13500000001')
             }
             post = new Post(title: 'title', content: 'content', published: published).save()
@@ -72,11 +72,11 @@ class PostFunctionalSpec extends Specification {
 
         when:
         String jwt
-        if(null != role) {
+        if(role) {
             jwt = TestUtils.login(serverPort, '13500000001', '13500000001')
         }
         response = rest.get("http://localhost:${serverPort}/api/posts/${post.id}") {
-            if (null != role) {
+            if (role) {
                 header('Authorization', "Bearer ${jwt}")
             }
         }
@@ -109,9 +109,13 @@ class PostFunctionalSpec extends Specification {
         String jwt
 
         when: 'save'
-        jwt = TestUtils.login(serverPort, '13500000001', '13500000001')
+        if (role) {
+            jwt = TestUtils.login(serverPort, '13500000001', '13500000001')
+        }
         response = rest.post("http://localhost:${serverPort}/api/posts") {
-            header('Authorization', "Bearer ${jwt}")
+            if (role) {
+                header('Authorization', "Bearer ${jwt}")
+            }
             json {
                 title = 'title'
                 content = 'content'
@@ -125,9 +129,13 @@ class PostFunctionalSpec extends Specification {
         }
 
         when: 'update'
-        jwt = TestUtils.login(serverPort, '13500000001', '13500000001')
+        if (role) {
+            jwt = TestUtils.login(serverPort, '13500000001', '13500000001')
+        }
         response = rest.put("http://localhost:${serverPort}/api/posts/${post.id}") {
-            header('Authorization', "Bearer ${jwt}")
+            if (role) {
+                header('Authorization', "Bearer ${jwt}")
+            }
             json {
                 title = 'updated'
                 content = 'updated'
@@ -143,9 +151,13 @@ class PostFunctionalSpec extends Specification {
         }
 
         when: 'delete'
-        jwt = TestUtils.login(serverPort, '13500000001', '13500000001')
+        if (role) {
+            jwt = TestUtils.login(serverPort, '13500000001', '13500000001')
+        }
         response = rest.delete("http://localhost:${serverPort}/api/posts/${post.id}") {
-            header('Authorization', "Bearer ${jwt}")
+            if (role) {
+                header('Authorization', "Bearer ${jwt}")
+            }
         }
 
         then:
@@ -159,7 +171,7 @@ class PostFunctionalSpec extends Specification {
         'ROLE_ADMIN'  | 'can'     | 201        | 200       | 204
         'ROLE_SELLER' | 'can not' | 403        | 403       | 403
         'ROLE_YH'     | 'can not' | 403        | 403       | 403
-        null          | 'can not' | 403        | 403       | 403
+        null          | 'can not' | 401        | 401       | 401
     }
 
 }
