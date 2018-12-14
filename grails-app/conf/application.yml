@@ -87,7 +87,7 @@ grails:
 
 ---
 hibernate:
-    dialect: net.kaleidos.hibernate.PostgresqlExtensionsDialect
+    dialect: zhusu.backend.util.PostgresqlExtensionsDialect
     showSql: true
     formatSql: true
     cache:

@@ -2,17 +2,21 @@ package zhusu.backend
 
 import com.vividsolutions.jts.geom.Coordinate
 import com.vividsolutions.jts.geom.GeometryFactory
-import grails.test.hibernate.HibernateSpec
+import grails.gorm.transactions.Rollback
+import grails.testing.mixin.integration.Integration
+import spock.lang.Specification
 
-class MyDomainSpec extends HibernateSpec {
+@Integration
+@Rollback
+class MyDomainServiceSpec extends Specification {
 
-    List<Class> getDomainClasses() { [MyDomain] }
+    MyDomainService myDomainService
 
-    void "test something"() {
+    void 'test something'() {
         setup:
-        new MyDomain(kvPair: [key: 'value']
+        myDomainService.save(new MyDomain(kvPair: [key: 'value']
                 , strings: ['1', '2'].toArray()
-                , location: new GeometryFactory().createPoint(new Coordinate(10, 5))).save(flush: true)
+                , location: new GeometryFactory().createPoint(new Coordinate(10, 5))))
 
         when:
         MyDomain myDomain = MyDomain.list()[0]
