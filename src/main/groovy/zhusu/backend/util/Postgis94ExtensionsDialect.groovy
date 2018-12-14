@@ -10,14 +10,14 @@ import org.hibernate.spatial.dialect.postgis.PostgisPG94Dialect
 import java.sql.Types
 
 @CompileStatic
-class PostgresqlExtensionsDialect extends PostgisPG94Dialect {
+class Postgis94ExtensionsDialect extends PostgisPG94Dialect {
 
     private static final String SEQUENCE_PER_TABLE = 'dataSource.postgresql.extensions.sequence_per_table'
 
     /**
      * Register postgresql types
      */
-    PostgresqlExtensionsDialect() {
+    Postgis94ExtensionsDialect() {
         super()
         registerColumnType(Types.ARRAY, 'array')
         registerColumnType(ArrayType.LONG_ARRAY, '_int8')
