@@ -1,5 +1,8 @@
 package zhusu.backend.ota
 
+import grails.rest.Resource
+
+@Resource(uri = '/api/tags')
 class Tag {
 
     String name

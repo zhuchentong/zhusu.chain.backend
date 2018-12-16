@@ -41,6 +41,8 @@ grails.plugin.springsecurity.interceptUrlMap = [
         , [pattern: '/api/posts', access: ['ROLE_ADMIN']]
         , [pattern: '/api/posts/*', access: ['permitAll'], httpMethod: 'GET']
         , [pattern: '/api/posts/*', access: ['ROLE_ADMIN']]
+        , [pattern: '/api/tags', access: ['ROLE_ADMIN']]
+        , [pattern: '/api/tags/*', access: ['ROLE_ADMIN']]
         , [pattern: '/api/**', access: ['denyAll']]
 ]
 
