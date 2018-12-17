@@ -17,6 +17,10 @@ class Hotel {
     String[] tags
     User manager
     LocalDateTime dateCreated
+    String englishName
+    int grand
+    String[] facilities
+    String contact
 
     static constraints = {
         name nullable: false, blank: false, maxSize: 50
@@ -26,6 +30,10 @@ class Hotel {
         hotelType nullable: false, inList: availableTypes()
         tags nullable: true
         manager nullable: false
+        englishName nullable: false, blank: false, maxSize: 100
+        grand min: 1, max: 7
+        facilities nullable: true
+        contact nullable: false, blank: false, maxSize: 50
     }
 
     static mapping = {
@@ -40,6 +48,10 @@ class Hotel {
         tags comment: '分类标签', type: ArrayType, params: [type: String]
         manager comment: '管理员'
         dateCreated comment: '创建时间'
+        englishName comment: '英文名称'
+        grand comment: '酒店星级'
+        facilities comment: '酒店设施', type: ArrayType, params: [type: String]
+        contact comment: '酒店联系方式'
     }
 
     static List<String> availableTypes() {

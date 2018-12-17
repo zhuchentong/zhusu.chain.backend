@@ -1,5 +1,6 @@
 package zhusu.backend.ota
 
+import net.kaleidos.hibernate.usertype.JsonbMapType
 import zhusu.backend.user.User
 
 import java.time.LocalDateTime
@@ -10,10 +11,7 @@ class Order {
     Room room
     LocalDateTime beginDate
     LocalDateTime endDate
-    User friend1
-    User friend2
-    User friend3
-    User friend4
+    Map attributes
     String memo
     String status = 'CREATED'
 
@@ -22,26 +20,19 @@ class Order {
         room nullable: false
         beginDate nullable: false
         endDate nullable: false
-        friend1 nullable: true
-        friend2 nullable: true
-        friend3 nullable: true
-        friend4 nullable: true
         memo nullable: true, maxSize: 100
+        attributes nullable: true
         status nullable: false, maxSize: 20, inList: availableStatus()
     }
 
     static mapping = {
         comment '酒店订单'
-        table 'myorder'
         buyer comment: '下单人'
         room comment: '房间'
         beginDate comment: '入住时间'
         endDate comment: '离开时间'
-        friend1 comment: '同行人1'
-        friend2 comment: '同行人2'
-        friend3 comment: '同行人3'
-        friend4 comment: '同行人4'
         memo comment: '备注'
+        attributes comment: '属性', type: JsonbMapType
         status comment: '状态'
     }
 
