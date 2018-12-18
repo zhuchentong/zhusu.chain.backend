@@ -16,7 +16,7 @@ abstract class HotelService {
 
     @Transactional(readOnly = true)
     List<Hotel> list(Map args = [:]) {
-        Hotel.createCriteria(args).list {
+        Hotel.createCriteria().list(args) {
 
         }
     }
