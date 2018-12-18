@@ -2,6 +2,7 @@ package zhusu.backend.ota
 
 import grails.databinding.converters.ValueConverter
 import grails.gorm.services.Service
+import grails.gorm.transactions.Transactional
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import zhusu.backend.user.User
@@ -25,6 +26,7 @@ abstract class CommentService {
 
     abstract List<Comment> findAllByWriter(User writer)
 
+    @Transactional(readOnly = true)
     List<Comment> list(Map args = [:]) {
         Comment.createCriteria().list(args) {
             if (args.ranking) {

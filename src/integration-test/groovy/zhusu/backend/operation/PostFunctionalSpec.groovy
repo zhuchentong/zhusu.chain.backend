@@ -144,7 +144,7 @@ class PostFunctionalSpec extends Specification {
 
         then:
         response.status == putStatus
-        if (postStatus == 200) {
+        if (putStatus == 200) {
             post.refresh()
             assert post.title == 'updated'
             assert post.content == 'updated'
@@ -162,7 +162,7 @@ class PostFunctionalSpec extends Specification {
 
         then:
         response.status == deleteStatus
-        if (postStatus == 204) {
+        if (deleteStatus == 204) {
             assert Post.count() == 1
         }
 
