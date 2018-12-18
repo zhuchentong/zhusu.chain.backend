@@ -19,7 +19,14 @@ des_key: ${DES_KEY:secret12}
 
 ### Comment模块
 
-**1.1\. listByHotel**
+**1.1\. Comment CRUD**
+###### 接口功能
+> 评论的增加、删除、修改、查询功能
+
+###### 使用方式
+> 参照Restful 标准化调用方式
+
+**1.2\. listByHotel**
 ###### 接口功能
 > 根据酒店（民宿）id查询该酒店（民宿）的所有评论
 
@@ -181,7 +188,7 @@ des_key: ${DES_KEY:secret12}
     "commentCount":3
 }
 ```
-**1.2\. listByUser**
+**1.3\. listByUser**
 ###### 接口功能
 > 根据用户id查询该用户的所有评论
 
@@ -343,7 +350,7 @@ des_key: ${DES_KEY:secret12}
     "commentCount":3
 }
 ```
-**1.3\. listByRanking**
+**1.4\. listByRanking**
 ###### 接口功能
 > 查询对应星级的所有评论
 

@@ -25,12 +25,13 @@ class CommentFunctionalSpec extends Specification{
     }
 
     @Unroll
-    void "#method 可以看到相应评论"() {
+    void "#role 可以通过 #method 看到相应评论"() {
         setup:
         RestBuilder rest = new RestBuilder()
         RestResponse response
         User testUser1
         User testUser2
+        User loginUser
         Long userId = 108
         Hotel testHotel1
         Hotel testHotel2
@@ -38,6 +39,7 @@ class CommentFunctionalSpec extends Specification{
         Comment.withNewTransaction {
             testUser1 = TestUtils.createUser('ROLE_YH', '1350000001')
             testUser2 = TestUtils.createUser('ROLE_YH', '1350000002')
+            loginUser = TestUtils.createUser(role, '13500000001')
             testHotel1 = hotelService.save(
                     new Hotel(name: '北京和颐酒店', totalRanking: 123, commenterCount: 49, location: '北京市天安门广场',
                             description: '4星级酒店', hotelType: 'HOTEL', manager: testUser1, dateCreated: '2018-09-09 12:12:12',
@@ -56,7 +58,11 @@ class CommentFunctionalSpec extends Specification{
             userId = testUser1.id
             hotelId = testHotel1.id
         }
+        String jwt
         when:
+        if (role) {
+            jwt = TestUtils.login(serverPort, '13500000001', '13500000001')
+        }
         String param = ''
         if (method == '/listByHotel') {
             param = '?hotelId='+hotelId
@@ -65,17 +71,33 @@ class CommentFunctionalSpec extends Specification{
         } else if (method == '/listByRanking') {
             param = '?ranking=3'
         }
-        response = rest.get("http://localhost:${serverPort}/api/comments"+method+param) {}
+        response = rest.get("http://localhost:${serverPort}/api/comments${method}${param}") {
+            if (role) {
+                header('Authorization', "Bearer ${jwt}")
+            }
+        }
 
         then:
         response.json.commentCount == count
 
         where:
-        method            | count
-        '/'               | 6
-        '/listByHotel'    | 1
-        '/listByUser'     | 2
-        '/listByRanking'  | 3
+        method            | count       | role
+        ''                | 6           | 'ROLE_ADMIN'
+        '/listByHotel'    | 1           | 'ROLE_ADMIN'
+        '/listByUser'     | 2           | 'ROLE_ADMIN'
+        '/listByRanking'  | 3           | 'ROLE_ADMIN'
+        ''                | 6           | 'ROLE_SELLER'
+        '/listByHotel'    | 1           | 'ROLE_SELLER'
+        '/listByUser'     | 2           | 'ROLE_SELLER'
+        '/listByRanking'  | 3           | 'ROLE_SELLER'
+        ''                | 6           | 'ROLE_YH'
+        '/listByHotel'    | 1           | 'ROLE_YH'
+        '/listByUser'     | 2           | 'ROLE_YH'
+        '/listByRanking'  | 3           | 'ROLE_YH'
+        ''                | 6           | null
+        '/listByHotel'    | 1           | null
+        '/listByUser'     | 2           | null
+        '/listByRanking'  | 3           | null
     }
 
     @Unroll
