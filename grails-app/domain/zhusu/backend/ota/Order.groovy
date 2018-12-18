@@ -27,6 +27,7 @@ class Order {
 
     static mapping = {
         comment '酒店订单'
+        table 'order'
         buyer comment: '下单人'
         room comment: '房间'
         beginDate comment: '入住时间'
