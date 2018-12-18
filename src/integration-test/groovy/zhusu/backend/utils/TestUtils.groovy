@@ -6,6 +6,8 @@ import grails.plugins.rest.client.RestResponse
 import grails.util.Holders
 import zhusu.backend.operation.Post
 import zhusu.backend.operation.SmsLog
+import zhusu.backend.ota.Comment
+import zhusu.backend.ota.Hotel
 import zhusu.backend.user.*
 
 class TestUtils {
@@ -22,6 +24,8 @@ class TestUtils {
 
     static void clearEnv() {
         Post.executeUpdate('delete from Post')
+        Comment.executeUpdate('delete from Comment')
+        Hotel.executeUpdate('delete from Hotel')
         SmsLog.executeUpdate('delete from SmsLog')
         LoginHistory.executeUpdate('delete from LoginHistory')
         UserRole.executeUpdate('delete from UserRole')

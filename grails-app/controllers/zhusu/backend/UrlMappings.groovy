@@ -23,5 +23,9 @@ class UrlMappings {
         "/api/users/resetPassword"(controller: 'Management', action: 'resetPassword')
         get "/api/getUploadAuthority"(controller: 'AliyunOSS', action: 'getUploadAuthority')
         "/api/posts"(resources: 'Post')
+        "/api/comments"(resources: 'Comment')
+        "/api/comments/listByHotel"(controller: 'Comment', action: 'listByHotel')
+        "/api/comments/listByUser"(controller: 'Comment', action: 'listByUser')
+        "/api/comments/listByRanking"(controller: 'Comment', action: 'listByRanking')
     }
 }
