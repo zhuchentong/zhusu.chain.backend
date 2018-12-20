@@ -1,20 +1,18 @@
 package zhusu.backend.ota
 
 import grails.gorm.PagedResultList
-import grails.plugin.springsecurity.SpringSecurityService
 import grails.rest.*
+import grails.validation.ValidationException
 import zhusu.backend.user.User
 import zhusu.backend.user.UserService
 
-import static org.springframework.http.HttpStatus.NOT_FOUND
+import static org.springframework.http.HttpStatus.*
 
 class CommentController extends RestfulController<Comment>{
 
     CommentService commentService
     HotelService hotelService
     UserService userService
-
-    SpringSecurityService springSecurityService
 
     static responseFormats = ['json', 'xml']
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
@@ -39,6 +37,22 @@ class CommentController extends RestfulController<Comment>{
             return
         }
         respond comment
+    }
+
+    def save() {
+        Comment comment = new Comment()
+        comment.properties = request.JSON
+        comment.writer = User.get(request.JSON.writerId as Long)
+        comment.hotel = Hotel.get(request.JSON.hotelId as Long)
+
+        try {
+            commentService.save(comment)
+        } catch (ValidationException e) {
+            respond comment.errors
+            return
+        }
+
+        render status: CREATED
     }
 
     def listByHotel(Long hotelId) {

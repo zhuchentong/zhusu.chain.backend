@@ -27,5 +27,6 @@ class UrlMappings {
         "/api/comments/listByHotel"(controller: 'Comment', action: 'listByHotel')
         "/api/comments/listByUser"(controller: 'Comment', action: 'listByUser')
         "/api/comments/listByRanking"(controller: 'Comment', action: 'listByRanking')
+        "/api/hotels"(resources: 'Hotel')
     }
 }

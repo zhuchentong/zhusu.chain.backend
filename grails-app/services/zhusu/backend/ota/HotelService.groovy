@@ -17,7 +17,32 @@ abstract class HotelService {
     @Transactional(readOnly = true)
     List<Hotel> list(Map args = [:]) {
         Hotel.createCriteria().list(args) {
+            if (args.name) {
+                like('name', args.name)
+            }
 
+            if (args.minGrand) {
+                gte('grand', args.minGrand)
+            }
+
+            if (args.maxGrand) {
+                lte('grand', args.maxGrand)
+            }
+
+            if (args.manager) {
+                eq('manager', args.manager)
+            }
+
+            if (args.hotelType == 'HOTEL' || args.hotelType == 'HOMESTAY') {
+                eq('hotelType', args.hotelType)
+            }
+
+            if (args.point && args.distance) {
+                lte {
+                    args.point.distance('point')
+                    args.distance
+                }
+            }
         }
     }
 

@@ -1,5 +1,7 @@
 package zhusu.backend.ota
 
+import com.vividsolutions.jts.geom.Coordinate
+import com.vividsolutions.jts.geom.GeometryFactory
 import grails.gorm.transactions.Rollback
 import grails.plugins.rest.client.RestBuilder
 import grails.plugins.rest.client.RestResponse
@@ -43,11 +45,11 @@ class CommentFunctionalSpec extends Specification{
             testHotel1 = hotelService.save(
                     new Hotel(name: '北京和颐酒店', totalRanking: 123, commenterCount: 49, location: '北京市天安门广场',
                             description: '4星级酒店', hotelType: 'HOTEL', manager: testUser1, dateCreated: '2018-09-09 12:12:12',
-                            englishName: 'BeiJingHeYi', grand: 4, contact: '110'))
+                            englishName: 'BeiJingHeYi', grand: 4, contact: '110', point: new GeometryFactory().createPoint(new Coordinate(10, 5))))
             testHotel2 = hotelService.save(
                     new Hotel(name: '北京和颐酒店222', totalRanking: 123, commenterCount: 49, location: '北京市天安门广场',
                             description: '4星级酒店', hotelType: 'HOTEL', manager: testUser2, dateCreated: '2018-09-09 12:12:12',
-                            englishName: 'BeiJingHeYi', grand: 4, contact: '110'))
+                            englishName: 'BeiJingHeYi', grand: 4, contact: '110', point: new GeometryFactory().createPoint(new Coordinate(10, 5))))
 
             commentService.save(new Comment(writer: testUser1, hotel: testHotel1, ranking: 3, content: '我喔喔喔喔', dateCreated: '2018-08-08 11:11:11'))
             commentService.save(new Comment(writer: testUser1, hotel: testHotel2, ranking: 3, content: '我喔喔喔喔', dateCreated: '2018-08-08 11:11:11'))
@@ -113,7 +115,7 @@ class CommentFunctionalSpec extends Specification{
             testHotel = hotelService.save(
                     new Hotel(name: '北京和颐酒店', totalRanking: 123, commenterCount: 49, location: '北京市天安门广场',
                             description: '4星级酒店', hotelType: 'HOTEL', manager: testUser, dateCreated: '2018-09-09 12:12:12',
-                            englishName: 'BeiJingHeYi', grand: 4, contact: '110'))
+                            englishName: 'BeiJingHeYi', grand: 4, contact: '110', point: new GeometryFactory().createPoint(new Coordinate(10, 5))))
             comment = new Comment(writer: testUser, hotel: testHotel, ranking: 3, content: '我喔喔喔喔', dateCreated: '2018-08-08 11:11:11').save()
         }
         String jwt
@@ -127,8 +129,8 @@ class CommentFunctionalSpec extends Specification{
                 header('Authorization', "Bearer ${jwt}")
             }
             json {
-                writer = testUser
-                hotel = testHotel
+                writerId = testUser.id
+                hotelId = testHotel.id
                 ranking = 3
                 content = 'for test'
                 dateCreated = '2019-01-01 12:00:00'
@@ -138,7 +140,7 @@ class CommentFunctionalSpec extends Specification{
         then:
         response.status == postStatus
         if (postStatus == 201) {
-            assert Comment.count() == 2
+            assert Comment.getCount() == 2
         }
 
         where:
@@ -162,7 +164,7 @@ class CommentFunctionalSpec extends Specification{
             testHotel = hotelService.save(
                     new Hotel(name: '北京和颐酒店', totalRanking: 123, commenterCount: 49, location: '北京市天安门广场',
                             description: '4星级酒店', hotelType: 'HOTEL', manager: testUser, dateCreated: '2018-09-09 12:12:12',
-                            englishName: 'BeiJingHeYi', grand: 4, contact: '110'))
+                            englishName: 'BeiJingHeYi', grand: 4, contact: '110', point: new GeometryFactory().createPoint(new Coordinate(10, 5))))
             comment = new Comment(writer: testUser, hotel: testHotel, ranking: 3, content: '我喔喔喔喔', dateCreated: '2018-08-08 11:11:11').save()
         }
         String jwt
@@ -210,7 +212,7 @@ class CommentFunctionalSpec extends Specification{
             testHotel = hotelService.save(
                     new Hotel(name: '北京和颐酒店', totalRanking: 123, commenterCount: 49, location: '北京市天安门广场',
                             description: '4星级酒店', hotelType: 'HOTEL', manager: testUser, dateCreated: '2018-09-09 12:12:12',
-                            englishName: 'BeiJingHeYi', grand: 4, contact: '110'))
+                            englishName: 'BeiJingHeYi', grand: 4, contact: '110', point: new GeometryFactory().createPoint(new Coordinate(10, 5))))
             comment = new Comment(writer: testUser, hotel: testHotel, ranking: 3, content: '我喔喔喔喔', dateCreated: '2018-08-08 11:11:11').save()
         }
         String jwt
@@ -228,7 +230,7 @@ class CommentFunctionalSpec extends Specification{
         then:
         response.status == deleteStatus
         if (deleteStatus == 204) {
-            assert Comment.count() == 0
+            assert Comment.getCount() == 0
         }
 
         where:

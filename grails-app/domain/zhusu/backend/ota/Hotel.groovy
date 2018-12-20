@@ -3,6 +3,7 @@ package zhusu.backend.ota
 import net.kaleidos.hibernate.usertype.ArrayType
 import zhusu.backend.user.User
 
+import com.vividsolutions.jts.geom.Point
 import java.time.LocalDateTime
 
 class Hotel {
@@ -11,6 +12,7 @@ class Hotel {
     long totalRanking
     long commenterCount
     String location
+    Point point
     String description
     String[] photos
     String hotelType
@@ -25,6 +27,7 @@ class Hotel {
     static constraints = {
         name nullable: false, blank: false, maxSize: 50
         location nullable: false, blank: false, maxSize: 50
+        point nullable: false
         description nullable: false, blank: false, maxSize: 500
         photos nullable: true
         hotelType nullable: false, inList: availableTypes()
@@ -41,7 +44,8 @@ class Hotel {
         name comment: '名称'
         totalRanking comment: '总评分'
         commenterCount comment: '评价人数'
-        location comment: '位置'
+        location comment: '位置描述'
+        point comment: '地理位置信息'
         description comment: '描述'
         photos comment: '照片URL', type: ArrayType, params: [type: String]
         hotelType comment: '酒店类型'

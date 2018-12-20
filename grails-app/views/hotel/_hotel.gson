@@ -1,0 +1,13 @@
+
+import groovy.transform.*
+import zhusu.backend.ota.Hotel
+
+@Field Hotel hotel
+
+json g.render(hotel, [deep: true, excludes: ['point']]) {
+    point {
+        lat hotel.point.x
+        lng hotel.point.y
+    }
+    version "1.1"
+}

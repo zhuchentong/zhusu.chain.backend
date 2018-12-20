@@ -15,6 +15,8 @@ des_key: ${DES_KEY:secret12}
 
 1\. Comment模块
 
+2\. Hotel模块
+
 ---
 
 ### Comment模块
@@ -24,7 +26,27 @@ des_key: ${DES_KEY:secret12}
 > 评论的增加、删除、修改、查询功能
 
 ###### 使用方式
-> 参照Restful 标准化调用方式
+> 增加(POST [http://localhost:9002/api/comments])
+
+|参数|必选|类型|说明|
+|:-----  |:-------|:-----|-----|
+|writerId |true    |long|发表评论的用户id|
+|hotelId |true    |long|评论对应的酒店id|
+|ranking |true    |int|评论星级|
+|content |true    |String|评论内容|
+|dateCreated |false    |String|发布日期时间YYYY-MM-DD HH:mm:ss|
+
+> 修改(PUT [http://localhost:9002/api/comments/${id}] [管理员])
+
+|参数|必选|类型|说明|
+|:-----  |:-------|:-----|-----|
+|writerId |false    |long|发表评论的用户id|
+|hotelId |false    |long|评论对应的酒店id|
+|ranking |false    |int|评论星级|
+|content |false    |String|评论内容|
+|dateCreated |false    |String|发布日期时间YYYY-MM-DD HH:mm:ss|
+
+> 删除(DELETE [http://localhost:9002/api/comments/${id}] [管理员])
 
 **1.2\. listByHotel**
 ###### 接口功能
@@ -512,3 +534,61 @@ des_key: ${DES_KEY:secret12}
     "commentCount":3
 }
 ```
+### Hotel模块
+
+**1.1\. Hotel CRUD**
+###### 接口功能
+> 酒店/民宿的增加、删除、修改、查询功能
+
+###### 使用方式
+> 查询(GET [http://localhost:9002/api/hotels])
+
+|参数|必选|类型|说明|
+|:-----  |:-------|:-----|-----|
+|name |false    |String|模糊匹配的名字|
+|minGrand |false    |int|最小星级 默认：1|
+|maxGrand |false    |int|最大星级 默认：7|
+|hotelType |false    |String|酒店（HOTEL）/民宿（HOMESTAY）|
+|~~point~~ |false    |String|查询中心点坐标|
+|~~distance~~ |false    |int|查询范围距中心点半径 单位：公里|
+
+> 增加(POST [http://localhost:9002/api/hotels])
+
+|参数|必选|类型|说明|
+|:-----  |:-------|:-----|-----|
+|name |true    |String|酒店/民宿名称|
+|totalRanking |true    |int|总评分数|
+|commenterCount |true    |int|总评论数|
+|location |true    |String|具体位置描述|
+|description |true    |String|酒店描述|
+|photos |false    |String[]|酒店照片url集合|
+|hotelType |true    |String|酒店类型：酒店（HOTEL）/民宿（HOMESTAY）|
+|tags |false    |String[]|酒店标签|
+|managerId |true    |Long|酒店管理员id|
+|dateCreated |true    |String|发布日期时间YYYY-MM-DD HH:mm:ss|
+|englishName |true    |String|酒店/民宿英文名称|
+|grand |true    |int|酒店星级|
+|facilities |false    |String[]|酒店设施|
+|contact |true    |String|酒店联系方式|
+
+> 修改(PUT [http://localhost:9002/api/hotels/${id}] [管理员])
+
+|参数|必选|类型|说明|
+|:-----  |:-------|:-----|-----|
+|name |true    |String|酒店/民宿名称|
+|totalRanking |true    |int|总评分数|
+|commenterCount |true    |int|总评论数|
+|location |true    |String|具体位置描述|
+|description |true    |String|酒店描述|
+|photos |false    |String[]|酒店照片url集合|
+|hotelType |true    |String|酒店类型：酒店（HOTEL）/民宿（HOMESTAY）|
+|tags |false    |String[]|酒店标签|
+|managerId |true    |Long|酒店管理员id|
+|dateCreated |true    |String|发布日期时间YYYY-MM-DD HH:mm:ss|
+|englishName |true    |String|酒店/民宿英文名称|
+|grand |true    |int|酒店星级|
+|facilities |false    |String[]|酒店设施|
+|contact |true    |String|酒店联系方式|
+
+> 删除(DELETE [http://localhost:9002/api/hotels/${id}] [管理员])
+
