@@ -35,9 +35,8 @@ class HotelController extends RestfulController<Hotel>{
         params.name = name ? "%${name}%" : name
         params.minGrand = minGrand
         params.maxGrand = maxGrand
-        if (lat > 0 && lng > 0) {
-            params.point = new GeometryFactory().createPoint(new Coordinate(lat, lng))
-        }
+        params.lat = lat
+        params.lng = lng
         params.hotelType = hotelType
 
         /**

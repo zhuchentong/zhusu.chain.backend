@@ -37,11 +37,8 @@ abstract class HotelService {
                 eq('hotelType', args.hotelType)
             }
 
-            if (args.point && args.distance) {
-                lte {
-                    args.point.distance('point')
-                    args.distance
-                }
+            if (args.lat > 0 && args.lng > 0 && args.distance) {
+                sqlRestriction "ST_dwithin(point::geography, ST_GeomFromText('POINT(${args.lat} ${args.lng})', 4326)::geography, ${args.distance * 1000})"
             }
         }
     }

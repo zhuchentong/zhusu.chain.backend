@@ -27,15 +27,16 @@ class HotelFunctionalSpec extends Specification{
         setup:
         RestBuilder rest = new RestBuilder()
         RestResponse response
+        Hotel hotel
         Hotel.withNewTransaction {
             User currentUser = TestUtils.createUser(role, '13500000001')
             User manager = TestUtils.createUser('ROLE_YH', '1350000002')
             new Hotel(name: '北京和颐酒店1', totalRanking: 123, commenterCount: 49, location: '北京市天安门广场',
                     description: '4星级酒店', hotelType: 'HOTEL', manager: currentUser, dateCreated: '2018-09-09 12:12:12',
                     englishName: 'BeiJingHeYi', grand: 4, contact: '110', point: new GeometryFactory().createPoint(new Coordinate(10, 5))).save()
-            new Hotel(name: '王府井酒店', totalRanking: 123, commenterCount: 49, location: '北京市天安门广场',
+            hotel = new Hotel(name: '王府井酒店', totalRanking: 123, commenterCount: 49, location: '北京市天安门广场',
                     description: '4星级酒店', hotelType: 'HOTEL', manager: currentUser, dateCreated: '2018-09-09 12:12:12',
-                    englishName: 'WangFuJingBeiJing', grand: 4, contact: '110', point: new GeometryFactory().createPoint(new Coordinate(10, 5))).save()
+                    englishName: 'WangFuJingBeiJing', grand: 4, contact: '110', point: new GeometryFactory().createPoint(new Coordinate(100, 55))).save()
             new Hotel(name: '北京和颐酒店3', totalRanking: 123, commenterCount: 49, location: '北京市天安门广场',
                     description: '4星级酒店', hotelType: 'HOTEL', manager: manager, dateCreated: '2018-09-09 12:12:12',
                     englishName: 'BeiJingHeYi', grand: 4, contact: '110', point: new GeometryFactory().createPoint(new Coordinate(10, 5))).save()
@@ -55,7 +56,7 @@ class HotelFunctionalSpec extends Specification{
         if (role) {
             jwt = TestUtils.login(serverPort, '13500000001', '13500000001')
         }
-        response = rest.get("http://localhost:${serverPort}/api/hotels?name=王府井&minGrand=4&maxGrand=4&hotelType=HOTEL") {
+        response = rest.get("http://localhost:${serverPort}/api/hotels?name=王府井&minGrand=4&maxGrand=4&hotelType=HOTEL&lat=100&lng=55") {
             if (role) {
                 header('Authorization', "Bearer ${jwt}")
             }
@@ -63,6 +64,16 @@ class HotelFunctionalSpec extends Specification{
 
         then:
         response.json.hotelCount == count
+
+        when:
+        response = rest.get("http://localhost:${serverPort}/api/hotels/${hotel.id}"){
+            if (role) {
+                header('Authorization', "Bearer ${jwt}")
+            }
+        }
+
+        then:
+        response.status == 200
 
         where:
         role          | count
@@ -115,7 +126,7 @@ class HotelFunctionalSpec extends Specification{
         then:
         response.status == postStatus
         if (postStatus == 201) {
-            assert Hotel.getCount() == 2
+            assert Hotel.count() == 2
         }
 
         when: 'update'
@@ -153,7 +164,7 @@ class HotelFunctionalSpec extends Specification{
         then:
         response.status == deleteStatus
         if (deleteStatus == 204) {
-            assert Hotel.getCount() == 1
+            assert Hotel.count() == 1
         }
 
         where:

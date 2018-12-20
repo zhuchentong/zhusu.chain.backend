@@ -125,7 +125,7 @@ class PostFunctionalSpec extends Specification {
         then:
         response.status == postStatus
         if (postStatus == 201) {
-            assert Post.getCount() == 2
+            assert Post.count() == 2
         }
 
         when: 'update'
@@ -163,7 +163,7 @@ class PostFunctionalSpec extends Specification {
         then:
         response.status == deleteStatus
         if (deleteStatus == 204) {
-            assert Post.getCount() == 1
+            assert Post.count() == 1
         }
 
         where:

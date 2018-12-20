@@ -140,7 +140,7 @@ class CommentFunctionalSpec extends Specification{
         then:
         response.status == postStatus
         if (postStatus == 201) {
-            assert Comment.getCount() == 2
+            assert Comment.count() == 2
         }
 
         where:
@@ -230,7 +230,7 @@ class CommentFunctionalSpec extends Specification{
         then:
         response.status == deleteStatus
         if (deleteStatus == 204) {
-            assert Comment.getCount() == 0
+            assert Comment.count() == 0
         }
 
         where:
