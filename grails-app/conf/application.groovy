@@ -59,8 +59,8 @@ grails.plugin.springsecurity.interceptUrlMap = [
         , [pattern: '/api/tags/*', access: ['ROLE_ADMIN']]
         , [pattern: '/api/orders', access: ['isFullyAuthenticated()']]
         , [pattern: '/api/orders/*', access: ['isFullyAuthenticated()']]
-        , [pattern: '/api/orderExecution', access: ['isFullyAuthenticated()']]
-        , [pattern: '/api/orderExecution/*', access: ['permitAll']]
+        , [pattern: '/api/orderExecutions', access: ['isFullyAuthenticated()']]
+        , [pattern: '/api/orderExecutions/*', access: ['permitAll']]
         , [pattern: '/api/**', access: ['denyAll']]
 ]
 
