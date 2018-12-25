@@ -1,16 +1,16 @@
-package zhusu.backend.operation
+package zhusu.backend.ota
 
-import grails.gorm.transactions.Rollback
 import grails.plugins.rest.client.RestBuilder
 import grails.plugins.rest.client.RestResponse
 import grails.testing.mixin.integration.Integration
+import grails.transaction.Rollback
 import spock.lang.Specification
 import spock.lang.Unroll
 import zhusu.backend.utils.TestUtils
 
 @Integration
 @Rollback
-class PostFunctionalSpec extends Specification {
+class TagFunctionalSpec extends Specification{
 
     void setup() {
         TestUtils.initEnv()
@@ -21,16 +21,17 @@ class PostFunctionalSpec extends Specification {
     }
 
     @Unroll
-    void "#role 可以看到 #tag 广告列表"() {
+    void "#role 可以访问标签列表并访问标签详情"() {
         setup:
         RestBuilder rest = new RestBuilder()
         RestResponse response
-        Post.withNewTransaction {
+        Tag tag
+        Tag.withNewTransaction {
             if (role) {
                 TestUtils.createUser(role, '13500000001')
             }
-            new Post(title: 'title', content: 'content', published: true).save()
-            new Post(title: 'title', content: 'content', published: false).save()
+            tag = new Tag(name: 'test1').save()
+            new Tag(name: 'test2').save()
         }
 
         when:
@@ -38,42 +39,20 @@ class PostFunctionalSpec extends Specification {
         if(role) {
             jwt = TestUtils.login(serverPort, '13500000001', '13500000001')
         }
-        response = rest.get("http://localhost:${serverPort}/api/posts") {
+        response = rest.get("http://localhost:${serverPort}/api/tags") {
             if (role) {
                 header('Authorization', "Bearer ${jwt}")
             }
         }
 
         then:
-        response.json.postCount == count
-
-        where:
-        role          | tag                        | count
-        'ROLE_ADMIN'  | 'published = true + false' | 2
-        'ROLE_SELLER' | 'published = true'         | 1
-        'ROLE_YH'     | 'published = true'         | 1
-        null          | 'published = true'         | 1
-    }
-
-    @Unroll
-    void "#role 访问 published = #published 的广告，返回状态码：#status"() {
-        setup:
-        RestBuilder rest = new RestBuilder()
-        RestResponse response
-        Post post
-        Post.withNewTransaction {
-            if (role) {
-                TestUtils.createUser(role, '13500000001')
-            }
-            post = new Post(title: 'title', content: 'content', published: published).save()
-        }
+        response.json.tagCount == count
 
         when:
-        String jwt
         if(role) {
             jwt = TestUtils.login(serverPort, '13500000001', '13500000001')
         }
-        response = rest.get("http://localhost:${serverPort}/api/posts/${post.id}") {
+        response = rest.get("http://localhost:${serverPort}/api/tags/${tag.id}") {
             if (role) {
                 header('Authorization', "Bearer ${jwt}")
             }
@@ -83,26 +62,22 @@ class PostFunctionalSpec extends Specification {
         response.status == status
 
         where:
-        role          | published | status
-        'ROLE_ADMIN'  | true      | 200
-        'ROLE_ADMIN'  | false     | 200
-        'ROLE_SELLER' | true      | 200
-        'ROLE_SELLER' | false     | 403
-        'ROLE_YH'     | true      | 200
-        'ROLE_YH'     | false     | 403
-        null          | true      | 200
-        null          | false     | 403
+        role          | status     | count
+        'ROLE_ADMIN'  | 200        | 2
+        'ROLE_SELLER' | 200        | 2
+        'ROLE_YH'     | 200        | 2
+        null          | 200        | 2
     }
 
     @Unroll
-    void "#role #should 创建、编辑、删除广告"() {
+    void "#role #should 创建、编辑、删除标签"() {
         setup:
         RestBuilder rest = new RestBuilder()
         RestResponse response
-        Post post
-        Post.withNewTransaction {
+        Tag tag
+        Tag.withNewTransaction {
             TestUtils.createUser(role, '13500000001')
-            post = new Post(title: 'title', content: 'content').save()
+            tag = new Tag(name: '品牌推荐').save()
         }
         String jwt
 
@@ -110,49 +85,46 @@ class PostFunctionalSpec extends Specification {
         if (role) {
             jwt = TestUtils.login(serverPort, '13500000001', '13500000001')
         }
-        response = rest.post("http://localhost:${serverPort}/api/posts") {
+        response = rest.post("http://localhost:${serverPort}/api/tags") {
             if (role) {
                 header('Authorization', "Bearer ${jwt}")
             }
             json {
-                title = 'title'
-                content = 'content'
+                name = '网红打卡'
             }
         }
 
         then:
         response.status == postStatus
         if (postStatus == 201) {
-            assert Post.count() == 2
+            assert Tag.count() == 2
         }
 
         when: 'update'
         if (role) {
             jwt = TestUtils.login(serverPort, '13500000001', '13500000001')
         }
-        response = rest.put("http://localhost:${serverPort}/api/posts/${post.id}") {
+        response = rest.put("http://localhost:${serverPort}/api/tags/${tag.id}") {
             if (role) {
                 header('Authorization', "Bearer ${jwt}")
             }
             json {
-                title = 'updated'
-                content = 'updated'
+                name = 'updated'
             }
         }
 
         then:
         response.status == putStatus
         if (putStatus == 200) {
-            post.refresh()
-            assert post.title == 'updated'
-            assert post.content == 'updated'
+            tag.refresh()
+            assert tag.name == 'updated'
         }
 
         when: 'delete'
         if (role) {
             jwt = TestUtils.login(serverPort, '13500000001', '13500000001')
         }
-        response = rest.delete("http://localhost:${serverPort}/api/posts/${post.id}") {
+        response = rest.delete("http://localhost:${serverPort}/api/tags/${tag.id}") {
             if (role) {
                 header('Authorization', "Bearer ${jwt}")
             }
@@ -161,7 +133,7 @@ class PostFunctionalSpec extends Specification {
         then:
         response.status == deleteStatus
         if (deleteStatus == 204) {
-            assert Post.count() == 1
+            assert Tag.count() == 1
         }
 
         where:

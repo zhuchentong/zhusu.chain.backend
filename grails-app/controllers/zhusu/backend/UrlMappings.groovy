@@ -28,5 +28,16 @@ class UrlMappings {
         "/api/comments/listByUser"(controller: 'Comment', action: 'listByUser')
         "/api/comments/listByRanking"(controller: 'Comment', action: 'listByRanking')
         "/api/hotels"(resources: 'Hotel')
+        "/api/rooms"(resources: 'Room')
+        "/api/tags"(resources: 'Tag')
+        "/api/orders"(resources: 'Order')
+        "/api/orders/order"(controller: 'Order', action: 'order')
+        "/api/orders/confirm"(controller: 'Order', action: 'confirm')
+        "/api/orders/checkIn"(controller: 'Order', action: 'checkIn')
+        "/api/orders/checkOut"(controller: 'Order', action: 'checkOut')
+        "/api/orders/cancel"(controller: 'Order', action: 'cancel')
+        "/api/orders/getCountByDate"(controller: 'Order', action: 'getCountByDate')
+        "/api/orderExecutions"(resources: 'OrderExecution')
+        "/api/orderExecutions/last"(controller: 'OrderExecution', action: 'last')
     }
 }

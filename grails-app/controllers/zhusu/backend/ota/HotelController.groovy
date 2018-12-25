@@ -8,12 +8,10 @@ import grails.plugin.springsecurity.SpringSecurityService
 import grails.rest.*
 import grails.validation.ValidationException
 import zhusu.backend.user.User
-import zhusu.backend.user.UserService
 
 class HotelController extends RestfulController<Hotel>{
 
     HotelService hotelService
-    UserService userService
     SpringSecurityService springSecurityService
 
 	static responseFormats = ['json', 'xml']

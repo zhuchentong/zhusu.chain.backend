@@ -8,6 +8,10 @@ import zhusu.backend.operation.Post
 import zhusu.backend.operation.SmsLog
 import zhusu.backend.ota.Comment
 import zhusu.backend.ota.Hotel
+import zhusu.backend.ota.Order
+import zhusu.backend.ota.OrderExecution
+import zhusu.backend.ota.Room
+import zhusu.backend.ota.Tag
 import zhusu.backend.user.*
 
 class TestUtils {
@@ -26,6 +30,10 @@ class TestUtils {
         Post.executeUpdate('delete from Post')
         Comment.executeUpdate('delete from Comment')
         Hotel.executeUpdate('delete from Hotel')
+        Room.executeUpdate('delete from Room')
+        Order.executeUpdate('delete from Order')
+        OrderExecution.executeUpdate('delete from OrderExecution')
+        Tag.executeUpdate('delete from Tag')
         SmsLog.executeUpdate('delete from SmsLog')
         LoginHistory.executeUpdate('delete from LoginHistory')
         UserRole.executeUpdate('delete from UserRole')
