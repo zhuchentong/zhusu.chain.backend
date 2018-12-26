@@ -2,6 +2,8 @@ package zhusu.backend.ota
 
 import com.vividsolutions.jts.geom.Coordinate
 import com.vividsolutions.jts.geom.GeometryFactory
+import zhusu.backend.user.UserService
+
 import static org.springframework.http.HttpStatus.*
 import grails.gorm.PagedResultList
 import grails.plugin.springsecurity.SpringSecurityService
@@ -12,6 +14,7 @@ import zhusu.backend.user.User
 class HotelController extends RestfulController<Hotel>{
 
     HotelService hotelService
+    UserService userService
     SpringSecurityService springSecurityService
 
 	static responseFormats = ['json', 'xml']
@@ -64,6 +67,8 @@ class HotelController extends RestfulController<Hotel>{
     def save() {
         Hotel hotel = new Hotel()
         hotel.properties = request.JSON
+        hotel.totalRanking = 0
+        hotel.commenterCount = 0
         def lat = request.JSON.lat as double
         def lng = request.JSON.lng as double
         hotel.point = new GeometryFactory().createPoint(new Coordinate(lat, lng))

@@ -25,10 +25,13 @@ class RoomController extends RestfulController<Room>{
         /**
          * 1、根据酒店获取所有房间
          */
-        params.hotel = hotelService.get(hotelId)
-
-        PagedResultList result = roomService.list(params)
-        respond([RoomList: result, RoomCount: result.totalCount])
+        if (hotelId) {
+            List roomList = roomService.findAllByHotel(hotelService.get(hotelId))
+            respond([roomList: roomList, roomCount: roomList.size()])
+        } else {
+            PagedResultList result = roomService.list(params)
+            respond([roomList: result, roomCount: result.totalCount])
+        }
     }
 
     def show(Long id) {

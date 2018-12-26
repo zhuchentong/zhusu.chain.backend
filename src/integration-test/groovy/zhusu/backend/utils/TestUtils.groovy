@@ -29,8 +29,8 @@ class TestUtils {
     static void clearEnv() {
         Post.executeUpdate('delete from Post')
         Comment.executeUpdate('delete from Comment')
-        Hotel.executeUpdate('delete from Hotel')
         Room.executeUpdate('delete from Room')
+        Hotel.executeUpdate('delete from Hotel')
         Order.executeUpdate('delete from Order')
         OrderExecution.executeUpdate('delete from OrderExecution')
         Tag.executeUpdate('delete from Tag')

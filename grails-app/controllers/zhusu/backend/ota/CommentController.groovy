@@ -39,22 +39,6 @@ class CommentController extends RestfulController<Comment>{
         respond comment
     }
 
-    def save() {
-        Comment comment = new Comment()
-        comment.properties = request.JSON
-        comment.writer = User.get(request.JSON.writerId as Long)
-        comment.hotel = Hotel.get(request.JSON.hotelId as Long)
-
-        try {
-            commentService.save(comment)
-        } catch (ValidationException e) {
-            respond comment.errors
-            return
-        }
-
-        render status: CREATED
-    }
-
     def listByHotel(Long hotelId) {
         Hotel hotel = hotelService.get(hotelId)
         List result = commentService.findAllByHotel(hotel)

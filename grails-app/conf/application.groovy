@@ -46,7 +46,7 @@ grails.plugin.springsecurity.interceptUrlMap = [
         , [pattern: '/api/comments/*', access: ['permitAll'], httpMethod: 'GET']
         , [pattern: '/api/comments/*', access: ['ROLE_ADMIN']]
         , [pattern: '/api/hotels', access: ['permitAll'], httpMethod: 'GET']
-        , [pattern: '/api/hotels', access: ['ROLE_ADMIN']]
+        , [pattern: '/api/hotels', access: ['permitAll']]
         , [pattern: '/api/hotels/*', access: ['permitAll'], httpMethod: 'GET']
         , [pattern: '/api/hotels/*', access: ['ROLE_ADMIN']]
         , [pattern: '/api/rooms', access: ['permitAll'], httpMethod: 'GET']
