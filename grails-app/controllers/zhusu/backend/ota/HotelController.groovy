@@ -2,6 +2,7 @@ package zhusu.backend.ota
 
 import com.vividsolutions.jts.geom.Coordinate
 import com.vividsolutions.jts.geom.GeometryFactory
+import grails.gorm.transactions.Transactional
 import zhusu.backend.user.UserService
 
 import static org.springframework.http.HttpStatus.*
@@ -64,13 +65,14 @@ class HotelController extends RestfulController<Hotel>{
         respond hotel
     }
 
+    @Transactional
     def save() {
         Hotel hotel = new Hotel()
         hotel.properties = request.JSON
         hotel.totalRanking = 0
         hotel.commenterCount = 0
-        def lat = request.JSON.point.lat as double
-        def lng = request.JSON.point.lng as double
+        def lat = request.JSON.position.lat as double
+        def lng = request.JSON.position.lng as double
         hotel.point = new GeometryFactory().createPoint(new Coordinate(lat, lng))
 
         try {

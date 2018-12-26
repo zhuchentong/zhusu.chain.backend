@@ -128,13 +128,7 @@ class CommentFunctionalSpec extends Specification{
             if (role) {
                 header('Authorization', "Bearer ${jwt}")
             }
-            json {
-                writerId = testUser.id
-                hotelId = testHotel.id
-                ranking = 3
-                content = 'for test'
-                dateCreated = '2019-01-01 12:00:00'
-            }
+            json "{ writer :{ id :${testUser.id} }, hotel :{ id :${testHotel.id} }, ranking :3, content :'for test', dateCreated :'2019-01-01 12:00:00' }"
         }
 
         then:

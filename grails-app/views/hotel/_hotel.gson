@@ -5,7 +5,7 @@ import zhusu.backend.ota.Hotel
 @Field Hotel hotel
 
 json g.render(hotel, [deep: true, excludes: ['point']]) {
-    point {
+    position {
         lat hotel.point.x
         lng hotel.point.y
     }

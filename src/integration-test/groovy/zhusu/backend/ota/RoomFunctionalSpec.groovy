@@ -101,14 +101,7 @@ class RoomFunctionalSpec extends Specification{
             if (role) {
                 header('Authorization', "Bearer ${jwt}")
             }
-            json {
-                name = '标准双人间'
-                hotel = {
-                    id = hotel.id
-                }
-                price = 12345
-                total = 20
-            }
+            json "{ name :'标准双人间', hotel :{ id :${hotel.id} }, price :12345, total :20 }"
         }
 
         then:
