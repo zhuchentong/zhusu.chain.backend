@@ -69,8 +69,8 @@ class HotelController extends RestfulController<Hotel>{
         hotel.properties = request.JSON
         hotel.totalRanking = 0
         hotel.commenterCount = 0
-        def lat = request.JSON.lat as double
-        def lng = request.JSON.lng as double
+        def lat = request.JSON.point.lat as double
+        def lng = request.JSON.point.lng as double
         hotel.point = new GeometryFactory().createPoint(new Coordinate(lat, lng))
 
         try {
