@@ -2,6 +2,7 @@ package zhusu.backend.ota
 
 import grails.gorm.PagedResultList
 import grails.rest.*
+import grails.validation.ValidationException
 
 import static org.springframework.http.HttpStatus.*
 
@@ -41,6 +42,20 @@ class RoomController extends RestfulController<Room>{
         }
 
         respond room
+    }
+
+    def save() {
+        Room room = new Room()
+        room.properties = request.JSON
+
+        try {
+            roomService.save(room)
+        } catch (ValidationException e) {
+            respond room.errors
+            return
+        }
+
+        render status: CREATED
     }
 
 }

@@ -65,7 +65,6 @@ class HotelController extends RestfulController<Hotel>{
         respond hotel
     }
 
-    @Transactional
     def save() {
         Hotel hotel = new Hotel()
         hotel.properties = request.JSON
@@ -83,6 +82,10 @@ class HotelController extends RestfulController<Hotel>{
         }
 
         render status: CREATED
+    }
+
+    def update() {
+
     }
 
 }

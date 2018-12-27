@@ -154,4 +154,12 @@ class RoomFunctionalSpec extends Specification{
         null          | 'can not' | 401        | 401       | 401
     }
 
+    static void main(String[] args) {
+        RestBuilder rest = new RestBuilder()
+        RestResponse response = rest.post("http://localhost:9002/api/rooms") {
+            json "{ name :'标准双人间', hotel :{ id :1 }, price :12345, total :20 }"
+        }
+        println(response.status)
+    }
+
 }

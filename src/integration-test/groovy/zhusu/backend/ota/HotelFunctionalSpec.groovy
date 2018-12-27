@@ -106,7 +106,7 @@ class HotelFunctionalSpec extends Specification{
             if (role) {
                 header('Authorization', "Bearer ${jwt}")
             }
-            json "{ name :'北京和颐酒店2', location :'北京市天安门广场', description :'4星', hotelType :'HOTEL', manager :{ id : ${currentUser.id} }, dateCreated :'2018-09-09 12:12:12', englishName :'BeiJingHeYi', grand :4, contact :'110', point :{ lat :101.1010, lng :37.9887 } }"
+            json "{ name :'北京和颐酒店2', location :'北京市天安门广场', description :'4星', hotelType :'HOTEL', manager :{ id : ${currentUser.id} }, dateCreated :'2018-09-09 12:12:12', englishName :'BeiJingHeYi', grand :4, contact :'110', position :{ lat :101.1010, lng :37.9887 } }"
         }
 
         then:

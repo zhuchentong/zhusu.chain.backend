@@ -25,10 +25,10 @@ abstract class OrderService {
     List<Order> list(Map args = [:]) {
         Order.createCriteria().list(args) {
             if (args.user) {
-                eq('user', args.user)
+                eq('buyer', args.user)
             }
             if (args.rooms) {
-                eqAll('room', args.rooms)
+                'in'('room', args.rooms)
             }
 
             if (args.startDate && args.endDate && args.room) {

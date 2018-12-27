@@ -8,6 +8,7 @@ import grails.rest.*
 import org.springframework.beans.factory.annotation.Qualifier
 import zhusu.backend.user.User
 
+import javax.xml.bind.ValidationException
 import java.time.LocalDateTime
 
 import static org.springframework.http.HttpStatus.*
@@ -65,19 +66,10 @@ class OrderController extends RestfulController<Order>{
             render status: FORBIDDEN
         }
     }
-    /**
-     * 预定房间
-     */
-    @Transactional
-    def order(Long roomId, String startDate, String endDate, int roomCount, String personName, Long telephone, String email, String arrivalTime) {
+
+    def save() {
         Order order = new Order()
-        Room room = roomService.get(roomId)
-        if (!room || canBeOrderBy(startDate, endDate, room, roomCount)) {
-            render status: FORBIDDEN
-        }
-        order.setRoom(room)
-        order.setBeginDate(localDateTimeValueConverter.convert(startDate) as LocalDateTime)
-        order.setEndDate(localDateTimeValueConverter.convert(endDate) as LocalDateTime)
+        order.properties = request.JSON
         User user = springSecurityService.currentUser as User
         if (user.hasRole('ROLE_YH')) {
             order.setBuyer(user)
@@ -85,26 +77,32 @@ class OrderController extends RestfulController<Order>{
             render status: FORBIDDEN
         }
         Map<String, String> attributes = new HashMap<>()
-        attributes.put('roomCount', roomCount.toString())
-        attributes.put('personName', personName)
-        attributes.put('telephone', telephone.toString())
-        attributes.put('email', email)
-        attributes.put('arrivalTime', arrivalTime)
+        attributes.put('roomCount', request.JSON.attributes.roomCount as String)
+        attributes.put('personName', request.JSON.attributes.personName as String)
+        attributes.put('telephone', request.JSON.attributes.telephone as String)
+        attributes.put('email', request.JSON.attributes.email as String)
+        attributes.put('arrivalTime', request.JSON.attributes.arrivalTime as String)
         order.setAttributes(attributes)
-        order.save()
 
-        OrderExecution orderExecution = new OrderExecution()
-        orderExecution.setOrder(order)
-        orderExecution.setStatus('CREATED')
-        orderExecution.setOperator(springSecurityService.currentUser as User)
-        orderExecution.save()
+        try {
+            orderService.save(order)
+            OrderExecution orderExecution = new OrderExecution()
+            orderExecution.setOrder(order)
+            orderExecution.setStatus('CREATED')
+            orderExecution.setOperator(springSecurityService.currentUser as User)
+            orderExecution.save()
+        } catch(ValidationException e) {
+            respond order.errors
+            return
+        }
+
+        render status: CREATED
     }
 
     /**
      * 创建阶段进入已确认阶段
      * @param id
      */
-    @Transactional
     def confirm(Long id) {
         Order order = orderService.get(id)
         if (order.status == 'CREATED') {
@@ -124,7 +122,6 @@ class OrderController extends RestfulController<Order>{
      * 已确认阶段进入入住阶段
      * @param id
      */
-    @Transactional
     def checkIn(Long id) {
         Order order = orderService.get(id)
         if (order.status == 'CONFIRMED') {
@@ -144,7 +141,6 @@ class OrderController extends RestfulController<Order>{
      * 入住阶段进入离店阶段
      * @param id
      */
-    @Transactional
     def checkOut(Long id) {
         Order order = orderService.get(id)
         if (order.status == 'CHECKIN') {
@@ -164,15 +160,14 @@ class OrderController extends RestfulController<Order>{
      * 取消订单
      * @param id
      */
-    @Transactional
     def cancel(Long id) {
         Order order = orderService.get(id)
-        if (order.status != 'CANCEL') {
-            order.setStatus('CANCEL')
+        if (order.status != 'CANCELED') {
+            order.setStatus('CANCELED')
             order.save()
             OrderExecution orderExecution = new OrderExecution()
             orderExecution.setOrder(order)
-            orderExecution.setStatus('CANCEL')
+            orderExecution.setStatus('CANCELED')
             orderExecution.setOperator(springSecurityService.currentUser as User)
             orderExecution.save()
         } else {
