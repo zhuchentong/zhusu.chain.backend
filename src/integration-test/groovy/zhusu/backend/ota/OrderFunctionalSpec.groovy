@@ -76,7 +76,7 @@ class OrderFunctionalSpec extends Specification{
         User currentUser
         User commonUser
         Order order
-        Room room
+        Room myRoom
         Order.withNewTransaction {
             currentUser = TestUtils.createUser(role, '13500000001')
             commonUser = TestUtils.createUser('ROLE_YH', '1992001')
@@ -84,8 +84,8 @@ class OrderFunctionalSpec extends Specification{
             Hotel hotel = new Hotel(name: '北京和颐酒店1', totalRanking: 123, commenterCount: 49, location: '北京市天安门广场',
                     description: '4星级酒店', hotelType: 'HOTEL', manager: managerUser, dateCreated: '2018-09-09 12:12:12',
                     englishName: 'BeiJingHeYi', grand: 4, contact: '110', point: new GeometryFactory().createPoint(new Coordinate(10, 5))).save()
-            room = new Room(name: '标准大床房', hotel: hotel, price: 12345, total: 20, dateCreated: '2018-10-10 11:11:11').save()
-            order = new Order(buyer: commonUser, room: room, beginDate: LocalDateTime.now(), endDate: LocalDateTime.now()).save()
+            myRoom = new Room(name: '标准大床房', hotel: hotel, price: 12345, total: 20, dateCreated: '2018-10-10 11:11:11').save()
+            order = new Order(buyer: commonUser, room: myRoom, beginDate: LocalDateTime.now(), endDate: LocalDateTime.now()).save()
         }
         String jwt
 
@@ -97,7 +97,17 @@ class OrderFunctionalSpec extends Specification{
             if (role) {
                 header('Authorization', "Bearer ${jwt}")
             }
-            json "{ room: { id: ${ room.id } }, buyer: { id: ${ commonUser.id } }, beginDate: '2018-09-09T13:13:12', endDate: '2018-09-09T13:13:13', attributes: {} }"
+            json {
+                room {
+                    id = myRoom.id
+                }
+                buyer {
+                    id = commonUser.id
+                }
+                beginDate = '2018-09-09T13:13:12'
+                endDate = '2018-09-09T13:13:13'
+                attributes {}
+            }
         }
 
         then:
@@ -112,6 +122,83 @@ class OrderFunctionalSpec extends Specification{
         'ROLE_SELLER' | 'can not' | 403
         'ROLE_YH'     | 'can'     | 201
         null          | 'can not' | 401
+    }
+
+    @Unroll
+    void "连续日期不会重复计算住房"() {
+        setup:
+        RestBuilder rest = new RestBuilder()
+        RestResponse response
+        Room myRoom
+        User commonUser
+        Order.withNewTransaction {
+            commonUser = TestUtils.createUser('ROLE_YH', '1992001')
+            User managerUser = TestUtils.createUser('ROLE_SELLER', '1992003')
+            Hotel hotel = new Hotel(name: '北京和颐酒店1', totalRanking: 123, commenterCount: 49, location: '北京市天安门广场',
+                    description: '4星级酒店', hotelType: 'HOTEL', manager: managerUser, dateCreated: '2018-09-09 12:12:12',
+                    englishName: 'BeiJingHeYi', grand: 4, contact: '110', point: new GeometryFactory().createPoint(new Coordinate(10, 5))).save()
+            myRoom = new Room(name: '标准大床房', hotel: hotel, price: 12345, total: 2, dateCreated: '2018-10-10 11:11:11').save()
+            new Order(buyer: commonUser, room: myRoom, beginDate: '2018-12-12 00:00:00', endDate: '2018-12-15 00:00:00').save()
+        }
+        String jwt
+
+        when:
+        jwt = TestUtils.login(serverPort, '1992001', '1992001')
+        response = rest.post("http://localhost:${serverPort}/api/orders") {
+            header('Authorization', "Bearer ${jwt}")
+            json {
+                room {
+                    id = myRoom.id
+                }
+                buyer {
+                    id = commonUser.id
+                }
+                beginDate = '2018-12-15 00:00:00'
+                endDate = '2018-12-19 00:00:00'
+                attributes {}
+            }
+        }
+
+        then:
+        response.status == 201
+
+        when:
+        response = rest.post("http://localhost:${serverPort}/api/orders") {
+            header('Authorization', "Bearer ${jwt}")
+            json {
+                room {
+                    id = myRoom.id
+                }
+                buyer {
+                    id = commonUser.id
+                }
+                beginDate = '2018-12-12 00:00:00'
+                endDate = '2018-12-19 00:00:00'
+                attributes {}
+            }
+        }
+
+        then:
+        response.status == 201
+
+        when:
+        response = rest.post("http://localhost:${serverPort}/api/orders") {
+            header('Authorization', "Bearer ${jwt}")
+            json {
+                room {
+                    id = myRoom.id
+                }
+                buyer {
+                    id = commonUser.id
+                }
+                beginDate = '2018-12-12 00:00:00'
+                endDate = '2018-12-19 00:00:00'
+                attributes {}
+            }
+        }
+
+        then:
+        response.status == 403
     }
 
     @Unroll

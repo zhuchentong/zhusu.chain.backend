@@ -82,14 +82,14 @@ class RoomFunctionalSpec extends Specification{
         RestBuilder rest = new RestBuilder()
         RestResponse response
         User currentUser
-        Hotel hotel
+        Hotel myHotel
         Room room
         Room.withNewTransaction {
             currentUser = TestUtils.createUser(role, '13500000001')
-            hotel = new Hotel(name: '北京和颐酒店1', totalRanking: 123, commenterCount: 49, location: '北京市天安门广场',
+            myHotel = new Hotel(name: '北京和颐酒店1', totalRanking: 123, commenterCount: 49, location: '北京市天安门广场',
                     description: '4星级酒店', hotelType: 'HOTEL', manager: currentUser, dateCreated: '2018-09-09 12:12:12',
                     englishName: 'BeiJingHeYi', grand: 4, contact: '110', point: new GeometryFactory().createPoint(new Coordinate(10, 5))).save()
-            room = new Room(name: '标准大床房', hotel: hotel, price: 12345, total: 20, dateCreated: '2018-10-10 11:11:11').save()
+            room = new Room(name: '标准大床房', hotel: myHotel, price: 12345, total: 20, dateCreated: '2018-10-10 11:11:11').save()
         }
         String jwt
 
@@ -101,7 +101,14 @@ class RoomFunctionalSpec extends Specification{
             if (role) {
                 header('Authorization', "Bearer ${jwt}")
             }
-            json "{ name :'标准双人间', hotel :{ id :${hotel.id} }, price :12345, total :20 }"
+            json {
+                name = '标准双人间'
+                hotel {
+                    id = myHotel.id
+                }
+                price = 12345
+                total = 20
+            }
         }
 
         then:
@@ -157,7 +164,14 @@ class RoomFunctionalSpec extends Specification{
     static void main(String[] args) {
         RestBuilder rest = new RestBuilder()
         RestResponse response = rest.post("http://localhost:9002/api/rooms") {
-            json "{ name :'标准双人间', hotel :{ id :1 }, price :12345, total :20 }"
+            json {
+                name = '标准双人间'
+                hotel {
+                    id = 1
+                }
+                price = 12345
+                total = 20
+            }
         }
         println(response.status)
     }

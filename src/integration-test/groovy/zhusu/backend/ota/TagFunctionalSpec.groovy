@@ -1,9 +1,11 @@
 package zhusu.backend.ota
 
+import grails.converters.JSON
 import grails.plugins.rest.client.RestBuilder
 import grails.plugins.rest.client.RestResponse
 import grails.testing.mixin.integration.Integration
 import grails.transaction.Rollback
+import org.json.JSONArray
 import spock.lang.Specification
 import spock.lang.Unroll
 import zhusu.backend.utils.TestUtils
@@ -46,7 +48,7 @@ class TagFunctionalSpec extends Specification{
         }
 
         then:
-        response.json.tagCount == count
+        response.json.getProperties().size() == count
 
         when:
         if(role) {

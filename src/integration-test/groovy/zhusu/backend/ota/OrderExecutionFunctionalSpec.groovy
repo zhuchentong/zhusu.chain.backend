@@ -88,7 +88,7 @@ class OrderExecutionFunctionalSpec extends Specification{
         RestResponse response
         User currentUser
         OrderExecution orderExecution
-        Order order
+        Order myOrder
         OrderExecution.withNewTransaction {
             TestUtils.createUser(role, '13500000001')
             currentUser = TestUtils.createUser('ROLE_YH', '1992001')
@@ -97,8 +97,8 @@ class OrderExecutionFunctionalSpec extends Specification{
                     description: '4星级酒店', hotelType: 'HOTEL', manager: managerUser, dateCreated: '2018-09-09 12:12:12',
                     englishName: 'BeiJingHeYi', grand: 4, contact: '110', point: new GeometryFactory().createPoint(new Coordinate(10, 5))).save()
             Room room = new Room(name: '标准大床房', hotel: hotel, price: 12345, total: 20, dateCreated: '2018-10-10 11:11:11').save()
-            order = new Order(buyer: currentUser, room: room, beginDate: LocalDateTime.now(), endDate: LocalDateTime.now()).save()
-            orderExecution = new OrderExecution(order: order, status: 'CREATED', operator: currentUser).save()
+            myOrder = new Order(buyer: currentUser, room: room, beginDate: LocalDateTime.now(), endDate: LocalDateTime.now()).save()
+            orderExecution = new OrderExecution(order: myOrder, status: 'CREATED', operator: currentUser).save()
         }
         String jwt
 
@@ -110,7 +110,15 @@ class OrderExecutionFunctionalSpec extends Specification{
             if (role) {
                 header('Authorization', "Bearer ${jwt}")
             }
-            json "{ order: { id: ${order.id} }, status: 'CREATED', operator: { id: ${currentUser.id} } }"
+            json {
+                order {
+                    id = myOrder.id
+                }
+                status = 'CREATED'
+                operator {
+                    id = currentUser.id
+                }
+            }
         }
 
         then:

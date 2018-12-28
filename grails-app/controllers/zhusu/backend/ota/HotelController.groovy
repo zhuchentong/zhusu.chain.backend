@@ -84,14 +84,13 @@ class HotelController extends RestfulController<Hotel>{
     }
 
     def update() {
-        Hotel hotel = new Hotel()
-        hotel.setId(params.id as Long)
+        Hotel hotel = hotelService.get(params.id as Long)
         hotel.properties = request.JSON
-        hotel.totalRanking = 0
-        hotel.commenterCount = 0
-        def lat = request.JSON.position.lat as double
-        def lng = request.JSON.position.lng as double
-        hotel.point = new GeometryFactory().createPoint(new Coordinate(lat, lng))
+        if (request.JSON.position) {
+            def lat = request.JSON.position.lat as double
+            def lng = request.JSON.position.lng as double
+            hotel.point = new GeometryFactory().createPoint(new Coordinate(lat, lng))
+        }
 
         try {
             hotelService.save(hotel)

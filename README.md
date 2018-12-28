@@ -88,40 +88,13 @@ des_key: ${DES_KEY:secret12}
             "dateCreated":"2018-12-18T12:48:25.37",
             "writer":{
                 "id":108,
-                "dateCreated":"2018-12-18T12:48:25.331",
-                "passwordExpired":false,
-                "username":"1350000001",
-                "enabled":true,
-                "displayName":"1350000001",
-                "role":[
-                    "ROLE_YH"
-                ]
+                ...
             },
             "ranking":3,
             "content":"我喔喔喔喔",
             "hotel":{
                 "id":1,
-                "hotelType":"HOTEL",
-                "dateCreated":"2018-12-18T12:48:25.357",
-                "location":"北京市天安门广场",
-                "grand":4,
-                "contact":"110",
-                "commenterCount":49,
-                "manager":{
-                    "id":108,
-                    "dateCreated":"2018-12-18T12:48:25.331",
-                    "passwordExpired":false,
-                    "username":"1350000001",
-                    "enabled":true,
-                    "displayName":"1350000001",
-                    "role":[
-                        "ROLE_YH"
-                    ]
-                },
-                "name":"北京和颐酒店",
-                "englishName":"BeiJingHeYi",
-                "totalRanking":123,
-                "description":"4星级酒店"
+                ...
             }
         },
         {
@@ -129,40 +102,13 @@ des_key: ${DES_KEY:secret12}
             "dateCreated":"2018-12-18T12:48:25.375",
             "writer":{
                 "id":108,
-                "dateCreated":"2018-12-18T12:48:25.331",
-                "passwordExpired":false,
-                "username":"1350000001",
-                "enabled":true,
-                "displayName":"1350000001",
-                "role":[
-                    "ROLE_YH"
-                ]
+                ...
             },
             "ranking":3,
             "content":"我喔喔喔喔",
             "hotel":{
                 "id":2,
-                "hotelType":"HOTEL",
-                "dateCreated":"2018-12-18T12:48:25.36",
-                "location":"北京市天安门广场",
-                "grand":4,
-                "contact":"110",
-                "commenterCount":49,
-                "manager":{
-                    "id":109,
-                    "dateCreated":"2018-12-18T12:48:25.338",
-                    "passwordExpired":false,
-                    "username":"1350000002",
-                    "enabled":true,
-                    "displayName":"1350000002",
-                    "role":[
-                        "ROLE_YH"
-                    ]
-                },
-                "name":"北京和颐酒店222",
-                "englishName":"BeiJingHeYi",
-                "totalRanking":123,
-                "description":"4星级酒店"
+                ...
             }
         },
         {
@@ -170,40 +116,13 @@ des_key: ${DES_KEY:secret12}
             "dateCreated":"2018-12-18T12:48:25.378",
             "writer":{
                 "id":109,
-                "dateCreated":"2018-12-18T12:48:25.338",
-                "passwordExpired":false,
-                "username":"1350000002",
-                "enabled":true,
-                "displayName":"1350000002",
-                "role":[
-                    "ROLE_YH"
-                ]
+                ...
             },
             "ranking":3,
             "content":"我喔喔喔喔",
             "hotel":{
                 "id":2,
-                "hotelType":"HOTEL",
-                "dateCreated":"2018-12-18T12:48:25.36",
-                "location":"北京市天安门广场",
-                "grand":4,
-                "contact":"110",
-                "commenterCount":49,
-                "manager":{
-                    "id":109,
-                    "dateCreated":"2018-12-18T12:48:25.338",
-                    "passwordExpired":false,
-                    "username":"1350000002",
-                    "enabled":true,
-                    "displayName":"1350000002",
-                    "role":[
-                        "ROLE_YH"
-                    ]
-                },
-                "name":"北京和颐酒店222",
-                "englishName":"BeiJingHeYi",
-                "totalRanking":123,
-                "description":"4星级酒店"
+                ...
             }
         }
     ],
@@ -250,40 +169,13 @@ des_key: ${DES_KEY:secret12}
             "dateCreated":"2018-12-18T12:48:25.37",
             "writer":{
                 "id":108,
-                "dateCreated":"2018-12-18T12:48:25.331",
-                "passwordExpired":false,
-                "username":"1350000001",
-                "enabled":true,
-                "displayName":"1350000001",
-                "role":[
-                    "ROLE_YH"
-                ]
+                ...
             },
             "ranking":3,
             "content":"我喔喔喔喔",
             "hotel":{
                 "id":1,
-                "hotelType":"HOTEL",
-                "dateCreated":"2018-12-18T12:48:25.357",
-                "location":"北京市天安门广场",
-                "grand":4,
-                "contact":"110",
-                "commenterCount":49,
-                "manager":{
-                    "id":108,
-                    "dateCreated":"2018-12-18T12:48:25.331",
-                    "passwordExpired":false,
-                    "username":"1350000001",
-                    "enabled":true,
-                    "displayName":"1350000001",
-                    "role":[
-                        "ROLE_YH"
-                    ]
-                },
-                "name":"北京和颐酒店",
-                "englishName":"BeiJingHeYi",
-                "totalRanking":123,
-                "description":"4星级酒店"
+                ...
             }
         },
         {
@@ -291,40 +183,13 @@ des_key: ${DES_KEY:secret12}
             "dateCreated":"2018-12-18T12:48:25.375",
             "writer":{
                 "id":108,
-                "dateCreated":"2018-12-18T12:48:25.331",
-                "passwordExpired":false,
-                "username":"1350000001",
-                "enabled":true,
-                "displayName":"1350000001",
-                "role":[
-                    "ROLE_YH"
-                ]
+                ...
             },
             "ranking":3,
             "content":"我喔喔喔喔",
             "hotel":{
                 "id":2,
-                "hotelType":"HOTEL",
-                "dateCreated":"2018-12-18T12:48:25.36",
-                "location":"北京市天安门广场",
-                "grand":4,
-                "contact":"110",
-                "commenterCount":49,
-                "manager":{
-                    "id":109,
-                    "dateCreated":"2018-12-18T12:48:25.338",
-                    "passwordExpired":false,
-                    "username":"1350000002",
-                    "enabled":true,
-                    "displayName":"1350000002",
-                    "role":[
-                        "ROLE_YH"
-                    ]
-                },
-                "name":"北京和颐酒店222",
-                "englishName":"BeiJingHeYi",
-                "totalRanking":123,
-                "description":"4星级酒店"
+                ...
             }
         },
         {
@@ -332,40 +197,13 @@ des_key: ${DES_KEY:secret12}
             "dateCreated":"2018-12-18T12:48:25.378",
             "writer":{
                 "id":109,
-                "dateCreated":"2018-12-18T12:48:25.338",
-                "passwordExpired":false,
-                "username":"1350000002",
-                "enabled":true,
-                "displayName":"1350000002",
-                "role":[
-                    "ROLE_YH"
-                ]
+                ...
             },
             "ranking":3,
             "content":"我喔喔喔喔",
             "hotel":{
                 "id":2,
-                "hotelType":"HOTEL",
-                "dateCreated":"2018-12-18T12:48:25.36",
-                "location":"北京市天安门广场",
-                "grand":4,
-                "contact":"110",
-                "commenterCount":49,
-                "manager":{
-                    "id":109,
-                    "dateCreated":"2018-12-18T12:48:25.338",
-                    "passwordExpired":false,
-                    "username":"1350000002",
-                    "enabled":true,
-                    "displayName":"1350000002",
-                    "role":[
-                        "ROLE_YH"
-                    ]
-                },
-                "name":"北京和颐酒店222",
-                "englishName":"BeiJingHeYi",
-                "totalRanking":123,
-                "description":"4星级酒店"
+                ...
             }
         }
     ],
@@ -412,40 +250,13 @@ des_key: ${DES_KEY:secret12}
             "dateCreated":"2018-12-18T12:48:25.37",
             "writer":{
                 "id":108,
-                "dateCreated":"2018-12-18T12:48:25.331",
-                "passwordExpired":false,
-                "username":"1350000001",
-                "enabled":true,
-                "displayName":"1350000001",
-                "role":[
-                    "ROLE_YH"
-                ]
+                ...
             },
             "ranking":3,
             "content":"我喔喔喔喔",
             "hotel":{
                 "id":1,
-                "hotelType":"HOTEL",
-                "dateCreated":"2018-12-18T12:48:25.357",
-                "location":"北京市天安门广场",
-                "grand":4,
-                "contact":"110",
-                "commenterCount":49,
-                "manager":{
-                    "id":108,
-                    "dateCreated":"2018-12-18T12:48:25.331",
-                    "passwordExpired":false,
-                    "username":"1350000001",
-                    "enabled":true,
-                    "displayName":"1350000001",
-                    "role":[
-                        "ROLE_YH"
-                    ]
-                },
-                "name":"北京和颐酒店",
-                "englishName":"BeiJingHeYi",
-                "totalRanking":123,
-                "description":"4星级酒店"
+                ...
             }
         },
         {
@@ -453,40 +264,13 @@ des_key: ${DES_KEY:secret12}
             "dateCreated":"2018-12-18T12:48:25.375",
             "writer":{
                 "id":108,
-                "dateCreated":"2018-12-18T12:48:25.331",
-                "passwordExpired":false,
-                "username":"1350000001",
-                "enabled":true,
-                "displayName":"1350000001",
-                "role":[
-                    "ROLE_YH"
-                ]
+                ...
             },
             "ranking":3,
             "content":"我喔喔喔喔",
             "hotel":{
                 "id":2,
-                "hotelType":"HOTEL",
-                "dateCreated":"2018-12-18T12:48:25.36",
-                "location":"北京市天安门广场",
-                "grand":4,
-                "contact":"110",
-                "commenterCount":49,
-                "manager":{
-                    "id":109,
-                    "dateCreated":"2018-12-18T12:48:25.338",
-                    "passwordExpired":false,
-                    "username":"1350000002",
-                    "enabled":true,
-                    "displayName":"1350000002",
-                    "role":[
-                        "ROLE_YH"
-                    ]
-                },
-                "name":"北京和颐酒店222",
-                "englishName":"BeiJingHeYi",
-                "totalRanking":123,
-                "description":"4星级酒店"
+                ...
             }
         },
         {
@@ -494,40 +278,13 @@ des_key: ${DES_KEY:secret12}
             "dateCreated":"2018-12-18T12:48:25.378",
             "writer":{
                 "id":109,
-                "dateCreated":"2018-12-18T12:48:25.338",
-                "passwordExpired":false,
-                "username":"1350000002",
-                "enabled":true,
-                "displayName":"1350000002",
-                "role":[
-                    "ROLE_YH"
-                ]
+                ...
             },
             "ranking":3,
             "content":"我喔喔喔喔",
             "hotel":{
                 "id":2,
-                "hotelType":"HOTEL",
-                "dateCreated":"2018-12-18T12:48:25.36",
-                "location":"北京市天安门广场",
-                "grand":4,
-                "contact":"110",
-                "commenterCount":49,
-                "manager":{
-                    "id":109,
-                    "dateCreated":"2018-12-18T12:48:25.338",
-                    "passwordExpired":false,
-                    "username":"1350000002",
-                    "enabled":true,
-                    "displayName":"1350000002",
-                    "role":[
-                        "ROLE_YH"
-                    ]
-                },
-                "name":"北京和颐酒店222",
-                "englishName":"BeiJingHeYi",
-                "totalRanking":123,
-                "description":"4星级酒店"
+                ...
             }
         }
     ],
@@ -549,8 +306,8 @@ des_key: ${DES_KEY:secret12}
 |minGrand |false    |int|最小星级 默认：1|
 |maxGrand |false    |int|最大星级 默认：7|
 |hotelType |false    |String|酒店（HOTEL）/民宿（HOMESTAY）|
-|~~point~~ |false    |String|查询中心点坐标|
-|~~distance~~ |false    |int|查询范围距中心点半径 单位：公里|
+|position |false    |String|查询中心点坐标|
+|distance |false    |int|查询范围距中心点半径 单位：公里|
 
 > 增加(POST [http://localhost:9002/api/hotels])
 

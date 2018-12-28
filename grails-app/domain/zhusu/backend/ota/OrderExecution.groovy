@@ -16,7 +16,7 @@ class OrderExecution {
         order nullable: false
         status nullable: false, maxSize: 20, inList: availableStatus()
         memo nullable: true, maxSize: 200
-        operator nullable: false
+        operator nullable: true
     }
 
     static mapping = {

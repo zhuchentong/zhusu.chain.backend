@@ -2,14 +2,12 @@ package zhusu.backend.ota
 
 import grails.databinding.converters.ValueConverter
 import grails.gorm.PagedResultList
-import grails.gorm.transactions.Transactional
 import grails.plugin.springsecurity.SpringSecurityService
 import grails.rest.*
 import org.springframework.beans.factory.annotation.Qualifier
 import zhusu.backend.user.User
 
 import javax.xml.bind.ValidationException
-import java.time.LocalDateTime
 
 import static org.springframework.http.HttpStatus.*
 
@@ -76,27 +74,26 @@ class OrderController extends RestfulController<Order>{
         } else {
             render status: FORBIDDEN
         }
-        Map<String, String> attributes = new HashMap<>()
-        attributes.put('roomCount', request.JSON.attributes.roomCount as String)
-        attributes.put('personName', request.JSON.attributes.personName as String)
-        attributes.put('telephone', request.JSON.attributes.telephone as String)
-        attributes.put('email', request.JSON.attributes.email as String)
-        attributes.put('arrivalTime', request.JSON.attributes.arrivalTime as String)
-        order.setAttributes(attributes)
+        if (canBeOrderBy(order.room, request.JSON.beginDate as String, request.JSON.endDate as String, request.JSON.attributes.roomCount ?: 1)) {
+            Map<String, String> attributes = new HashMap<>()
+            attributes.put('roomCount', request.JSON.attributes.roomCount as String)
+            attributes.put('personName', request.JSON.attributes.personName as String)
+            attributes.put('telephone', request.JSON.attributes.telephone as String)
+            attributes.put('email', request.JSON.attributes.email as String)
+            attributes.put('arrivalTime', request.JSON.attributes.arrivalTime as String)
+            order.setAttributes(attributes)
 
-        try {
-            orderService.save(order)
-            OrderExecution orderExecution = new OrderExecution()
-            orderExecution.setOrder(order)
-            orderExecution.setStatus('CREATED')
-            orderExecution.setOperator(springSecurityService.currentUser as User)
-            orderExecution.save()
-        } catch(ValidationException e) {
-            respond order.errors
-            return
+            try {
+                orderService.order(order, user)
+            } catch(ValidationException e) {
+                respond order.errors
+                return
+            }
+
+            render status: CREATED
+        } else {
+            render status: FORBIDDEN
         }
-
-        render status: CREATED
     }
 
     /**
@@ -105,11 +102,14 @@ class OrderController extends RestfulController<Order>{
      */
     def confirm(Long id) {
         Order order = orderService.get(id)
-        if (order.status == 'CREATED') {
+        if (!order) {
+            render status: NOT_FOUND
+        } else if (order.status == 'CREATED') {
             orderService.confirm(order, springSecurityService.currentUser as User)
         } else {
             render status: FORBIDDEN
         }
+        render status: OK
     }
 
     /**
@@ -118,11 +118,14 @@ class OrderController extends RestfulController<Order>{
      */
     def checkIn(Long id) {
         Order order = orderService.get(id)
-        if (order.status == 'CONFIRMED') {
+        if (!order) {
+            render status: NOT_FOUND
+        } else if (order.status == 'CONFIRMED') {
             orderService.checkIn(order, springSecurityService.currentUser as User)
         } else {
             render status: FORBIDDEN
         }
+        render status: OK
     }
 
     /**
@@ -131,11 +134,14 @@ class OrderController extends RestfulController<Order>{
      */
     def checkOut(Long id) {
         Order order = orderService.get(id)
-        if (order.status == 'CHECKIN') {
+        if (!order) {
+            render status: NOT_FOUND
+        } else if (order.status == 'CHECKIN') {
             orderService.checkOut(order, springSecurityService.currentUser as User)
         } else {
             render status: FORBIDDEN
         }
+        render status: OK
     }
 
     /**
@@ -144,42 +150,25 @@ class OrderController extends RestfulController<Order>{
      */
     def cancel(Long id) {
         Order order = orderService.get(id)
-        if (order.status != 'CANCELED') {
+        if (!order) {
+            render status: NOT_FOUND
+        } else if (order.status != 'CANCELED') {
             orderService.cancel(order, springSecurityService.currentUser as User)
         } else {
             render status: FORBIDDEN
         }
+        render status: OK
     }
 
-    private boolean canBeOrderBy(String startDate, String endDate, Room room, int count) {
-        params.startDate = startDate
+    private boolean canBeOrderBy(Room room, String beginDate, String endDate, int count) {
+        params.roomId = room.id
+        params.beginDate = beginDate
         params.endDate = endDate
-        params.room = room
-
-        if (startDate && endDate && room) {
-            PagedResultList result = orderService.list(params)
-            if (room.total > result.totalCount + count) {
-                true
-            }
-        }
-        false
+        int max = orderService.orderCounts(params)
+        room.total >= max + count
     }
 
     private static boolean canBeReadBy(Order order, User user) {
-        if (user.hasRole('ROLE_YH')) {
-            // 普通用户只能看到自己消费的订单
-            if (order.buyer == user) {
-                true
-            } else {
-                false
-            }
-        } else if (user.hasRole('ROLE_SELLER')) {
-            // 酒店管理员只能看到隶属于本酒店的订单
-            if (order.room.hotel.manager == user) {
-                true
-            } else {
-                false
-            }
-        }
+        (user.hasRole('ROLE_YH') && order.buyer == user) || (user.hasRole('ROLE_SELLER') && order.room.hotel.manager == user)
     }
 }
