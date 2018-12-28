@@ -15,7 +15,7 @@ class OrderExecutionController extends RestfulController<OrderExecution>{
     OrderService orderService
     SpringSecurityService springSecurityService
 
-	static responseFormats = ['json', 'xml']
+    static responseFormats = ['json', 'xml']
     static allowedMethods = [save: 'POST', update: 'PUT', delete: 'DELETE']
 
     OrderExecutionController() {
@@ -24,7 +24,7 @@ class OrderExecutionController extends RestfulController<OrderExecution>{
 	
     def index(Integer max, Long orderId) {
         if (!orderId) {
-            render status: FORBIDDEN
+            render status: UNPROCESSABLE_ENTITY
             return
         }
         params.max = Math.min(max ?: 10, 100)
@@ -33,7 +33,6 @@ class OrderExecutionController extends RestfulController<OrderExecution>{
 
         User user = springSecurityService.currentUser
         Order order = orderService.get(orderId)
-        println(canBeReadBy(order, user))
         if (canBeReadBy(order, user)) {
             params.myOrder = order
         } else {
@@ -95,42 +94,10 @@ class OrderExecutionController extends RestfulController<OrderExecution>{
     }
 
     private boolean canBeReadBy(Order order, User user) {
-        if (user.hasRole('ROLE_YH')) {
-            // 普通用户只能看到自己消费的订单
-            if (order.buyer.id == user.id) {
-                true
-            } else {
-                false
-            }
-        } else if (user.hasRole('ROLE_SELLER')) {
-            // 酒店管理员只能看到隶属于本酒店的订单
-            if (order.room.hotel.manager.id == user.id) {
-                true
-            } else {
-                false
-            }
-        } else {
-            true
-        }
+        (user.hasRole('ROLE_YH') && order.buyer.id == user.id) || (user.hasRole('ROLE_SELLER') && order.room.hotel.manager.id == user.id) || user.hasRole('ROLE_ADMIN')
     }
 
     private boolean canBeReadBy(OrderExecution orderExecution, User user) {
-        if (user.hasRole('ROLE_YH')) {
-            // 普通用户只能看到自己消费的订单
-            if (orderExecution.order.buyer.id == user.id) {
-                true
-            } else {
-                false
-            }
-        } else if (user.hasRole('ROLE_SELLER')) {
-            // 酒店管理员只能看到隶属于本酒店的订单
-            if (orderExecution.order.room.hotel.manager.id == user.id) {
-                true
-            } else {
-                false
-            }
-        } else {
-            true
-        }
+        (user.hasRole('ROLE_YH') && orderExecution.order.buyer.id == user.id) || (user.hasRole('ROLE_SELLER') && orderExecution.order.room.hotel.manager.id == user.id) || user.hasRole('ROLE_ADMIN')
     }
 }

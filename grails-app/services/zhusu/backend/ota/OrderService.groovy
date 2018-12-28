@@ -5,6 +5,7 @@ import grails.gorm.services.Service
 import grails.gorm.transactions.Transactional
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
+import zhusu.backend.user.User
 
 @Service(Order)
 abstract class OrderService {
@@ -20,6 +21,50 @@ abstract class OrderService {
     abstract void delete(Long id)
 
     abstract Order save(Order order)
+
+    @Transactional
+    void confirm(Order order, User user) {
+        order.setStatus('CONFIRMED')
+        order.save()
+        OrderExecution orderExecution = new OrderExecution()
+        orderExecution.setOrder(order)
+        orderExecution.setStatus('CONFIRMED')
+        orderExecution.setOperator(user)
+        orderExecution.save()
+    }
+
+    @Transactional
+    void checkIn(Order order, User user) {
+        order.setStatus('CHECKIN')
+        order.save()
+        OrderExecution orderExecution = new OrderExecution()
+        orderExecution.setOrder(order)
+        orderExecution.setStatus('CHECKIN')
+        orderExecution.setOperator(user)
+        orderExecution.save()
+    }
+
+    @Transactional
+    void checkOut(Order order, User user) {
+        order.setStatus('CHECKOUT')
+        order.save()
+        OrderExecution orderExecution = new OrderExecution()
+        orderExecution.setOrder(order)
+        orderExecution.setStatus('CHECKOUT')
+        orderExecution.setOperator(user)
+        orderExecution.save()
+    }
+
+    @Transactional
+    void cancel(Order order, User user) {
+        order.setStatus('CANCELED')
+        order.save()
+        OrderExecution orderExecution = new OrderExecution()
+        orderExecution.setOrder(order)
+        orderExecution.setStatus('CANCELED')
+        orderExecution.setOperator(user)
+        orderExecution.save()
+    }
 
     @Transactional(readOnly = true)
     List<Order> list(Map args = [:]) {

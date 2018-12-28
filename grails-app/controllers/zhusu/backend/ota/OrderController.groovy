@@ -106,13 +106,7 @@ class OrderController extends RestfulController<Order>{
     def confirm(Long id) {
         Order order = orderService.get(id)
         if (order.status == 'CREATED') {
-            order.setStatus('CONFIRMED')
-            order.save()
-            OrderExecution orderExecution = new OrderExecution()
-            orderExecution.setOrder(order)
-            orderExecution.setStatus('CONFIRMED')
-            orderExecution.setOperator(springSecurityService.currentUser as User)
-            orderExecution.save()
+            orderService.confirm(order, springSecurityService.currentUser as User)
         } else {
             render status: FORBIDDEN
         }
@@ -125,13 +119,7 @@ class OrderController extends RestfulController<Order>{
     def checkIn(Long id) {
         Order order = orderService.get(id)
         if (order.status == 'CONFIRMED') {
-            order.setStatus('CHECKIN')
-            order.save()
-            OrderExecution orderExecution = new OrderExecution()
-            orderExecution.setOrder(order)
-            orderExecution.setStatus('CHECKIN')
-            orderExecution.setOperator(springSecurityService.currentUser as User)
-            orderExecution.save()
+            orderService.checkIn(order, springSecurityService.currentUser as User)
         } else {
             render status: FORBIDDEN
         }
@@ -144,13 +132,7 @@ class OrderController extends RestfulController<Order>{
     def checkOut(Long id) {
         Order order = orderService.get(id)
         if (order.status == 'CHECKIN') {
-            order.setStatus('CHECKOUT')
-            order.save()
-            OrderExecution orderExecution = new OrderExecution()
-            orderExecution.setOrder(order)
-            orderExecution.setStatus('CHECKOUT')
-            orderExecution.setOperator(springSecurityService.currentUser as User)
-            orderExecution.save()
+            orderService.checkOut(order, springSecurityService.currentUser as User)
         } else {
             render status: FORBIDDEN
         }
@@ -163,13 +145,7 @@ class OrderController extends RestfulController<Order>{
     def cancel(Long id) {
         Order order = orderService.get(id)
         if (order.status != 'CANCELED') {
-            order.setStatus('CANCELED')
-            order.save()
-            OrderExecution orderExecution = new OrderExecution()
-            orderExecution.setOrder(order)
-            orderExecution.setStatus('CANCELED')
-            orderExecution.setOperator(springSecurityService.currentUser as User)
-            orderExecution.save()
+            orderService.cancel(order, springSecurityService.currentUser as User)
         } else {
             render status: FORBIDDEN
         }
