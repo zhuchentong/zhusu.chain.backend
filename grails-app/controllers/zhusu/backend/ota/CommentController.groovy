@@ -8,7 +8,7 @@ import zhusu.backend.user.UserService
 
 import static org.springframework.http.HttpStatus.*
 
-class CommentController extends RestfulController<Comment>{
+class CommentController extends RestfulController<Comment> {
 
     CommentService commentService
     HotelService hotelService
@@ -22,7 +22,7 @@ class CommentController extends RestfulController<Comment>{
     }
 
     def index(Integer max) {
-        params.max = Math.min(max ?: 10 ,100)
+        params.max = Math.min(max ?: 10, 100)
         params.sort = params.sort ?: 'id'
         params.order = params.order ?: 'desc'
 
@@ -55,12 +55,20 @@ class CommentController extends RestfulController<Comment>{
 
     def listByHotel(Long hotelId) {
         Hotel hotel = hotelService.get(hotelId)
+        if (!hotel) {
+            render status: NOT_FOUND
+            return
+        }
         List result = commentService.findAllByHotel(hotel)
         respond([commentList: result, commentCount: result.size()])
     }
 
     def listByUser(Long userId) {
         User user = userService.get(userId)
+        if (!user) {
+            render status: NOT_FOUND
+            return
+        }
         List result = commentService.findAllByWriter(user)
         respond([commentList: result, commentCount: result.size()])
     }

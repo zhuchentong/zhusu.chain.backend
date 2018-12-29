@@ -13,7 +13,7 @@ import zhusu.backend.utils.TestUtils
 
 @Integration
 @Rollback
-class RoomFunctionalSpec extends Specification{
+class RoomFunctionalSpec extends Specification {
 
     void setup() {
         TestUtils.initEnv()

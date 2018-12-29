@@ -1,18 +1,16 @@
 package zhusu.backend.ota
 
-import grails.converters.JSON
 import grails.plugins.rest.client.RestBuilder
 import grails.plugins.rest.client.RestResponse
 import grails.testing.mixin.integration.Integration
 import grails.transaction.Rollback
-import org.json.JSONArray
 import spock.lang.Specification
 import spock.lang.Unroll
 import zhusu.backend.utils.TestUtils
 
 @Integration
 @Rollback
-class TagFunctionalSpec extends Specification{
+class TagFunctionalSpec extends Specification {
 
     void setup() {
         TestUtils.initEnv()
@@ -38,7 +36,7 @@ class TagFunctionalSpec extends Specification{
 
         when:
         String jwt
-        if(role) {
+        if (role) {
             jwt = TestUtils.login(serverPort, '13500000001', '13500000001')
         }
         response = rest.get("http://localhost:${serverPort}/api/tags") {
@@ -51,7 +49,7 @@ class TagFunctionalSpec extends Specification{
         response.json.getProperties().size() == count
 
         when:
-        if(role) {
+        if (role) {
             jwt = TestUtils.login(serverPort, '13500000001', '13500000001')
         }
         response = rest.get("http://localhost:${serverPort}/api/tags/${tag.id}") {
@@ -64,11 +62,11 @@ class TagFunctionalSpec extends Specification{
         response.status == status
 
         where:
-        role          | status     | count
-        'ROLE_ADMIN'  | 200        | 2
-        'ROLE_SELLER' | 200        | 2
-        'ROLE_YH'     | 200        | 2
-        null          | 200        | 2
+        role          | status | count
+        'ROLE_ADMIN'  | 200    | 2
+        'ROLE_SELLER' | 200    | 2
+        'ROLE_YH'     | 200    | 2
+        null          | 200    | 2
     }
 
     @Unroll

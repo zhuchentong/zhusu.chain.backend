@@ -1,33 +1,28 @@
 package zhusu.backend.ota
 
-import grails.databinding.converters.ValueConverter
 import grails.gorm.PagedResultList
 import grails.plugin.springsecurity.SpringSecurityService
 import grails.rest.*
-import org.springframework.beans.factory.annotation.Qualifier
 import zhusu.backend.user.User
 
 import javax.xml.bind.ValidationException
 
 import static org.springframework.http.HttpStatus.*
 
-class OrderController extends RestfulController<Order>{
+class OrderController extends RestfulController<Order> {
 
     OrderService orderService
     HotelService hotelService
     RoomService roomService
     SpringSecurityService springSecurityService
 
-    @Qualifier('localDateTimeValueConverter')
-    ValueConverter localDateTimeValueConverter
-
-	static responseFormats = ['json', 'xml']
+    static responseFormats = ['json', 'xml']
     static allowedMethods = [save: 'POST', update: 'PUT', delete: 'DELETE']
 
     OrderController() {
         super(Order)
     }
-	
+
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
         params.sort = params.sort ?: 'id'
@@ -42,7 +37,7 @@ class OrderController extends RestfulController<Order>{
             // 酒店管理员只能看到隶属于本酒店的订单
             List<Hotel> myHotels = hotelService.findAllByManager(user)
             List<Room> rooms = new ArrayList<>()
-            myHotels.each{
+            myHotels.each {
                 rooms.addAll(roomService.findAllByHotel(it))
             }
             params.rooms = rooms
@@ -85,7 +80,7 @@ class OrderController extends RestfulController<Order>{
 
             try {
                 orderService.order(order, user)
-            } catch(ValidationException e) {
+            } catch (ValidationException e) {
                 respond order.errors
                 return
             }

@@ -6,18 +6,18 @@ import grails.validation.ValidationException
 
 import static org.springframework.http.HttpStatus.*
 
-class RoomController extends RestfulController<Room>{
+class RoomController extends RestfulController<Room> {
 
     RoomService roomService
     HotelService hotelService
 
-	static responseFormats = ['json', 'xml']
+    static responseFormats = ['json', 'xml']
     static allowedMethods = [save: 'POST', update: 'PUT', delete: 'DELETE']
 
     RoomController() {
         super(Room)
     }
-	
+
     def index(Integer max, Long hotelId) {
         params.max = Math.min(max ?: 10, 100)
         params.sort = params.sort ?: 'id'

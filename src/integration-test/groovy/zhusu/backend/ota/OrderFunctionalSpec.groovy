@@ -15,7 +15,7 @@ import java.time.LocalDateTime
 
 @Integration
 @Rollback
-class OrderFunctionalSpec extends Specification{
+class OrderFunctionalSpec extends Specification {
 
     void setup() {
         TestUtils.initEnv()
@@ -48,7 +48,7 @@ class OrderFunctionalSpec extends Specification{
 
         when:
         String jwt
-        if(role) {
+        if (role) {
             jwt = TestUtils.login(serverPort, username, username)
         }
         response = rest.get("http://localhost:${serverPort}/api/orders") {
@@ -61,11 +61,11 @@ class OrderFunctionalSpec extends Specification{
         response.json.orderCount == count
 
         where:
-        role          | count   | username
-        'ROLE_ADMIN'  | 3       | '13500000001'
-        'ROLE_SELLER' | 3       | '1992003'
-        'ROLE_YH'     | 2       | '1992001'
-        null          | null    | ''
+        role          | count | username
+        'ROLE_ADMIN'  | 3     | '13500000001'
+        'ROLE_SELLER' | 3     | '1992003'
+        'ROLE_YH'     | 2     | '1992001'
+        null          | null  | ''
     }
 
     @Unroll

@@ -15,7 +15,7 @@ import java.time.LocalDateTime
 
 @Integration
 @Rollback
-class OrderExecutionFunctionalSpec extends Specification{
+class OrderExecutionFunctionalSpec extends Specification {
 
     void setup() {
         TestUtils.initEnv()
@@ -51,7 +51,7 @@ class OrderExecutionFunctionalSpec extends Specification{
 
         when:
         String jwt
-        if(role) {
+        if (role) {
             jwt = TestUtils.login(serverPort, username, username)
         }
         response = rest.get("http://localhost:${serverPort}/api/orderExecutions?orderId=${order.id}") {
@@ -73,12 +73,12 @@ class OrderExecutionFunctionalSpec extends Specification{
         then:
         response.status == detailStatus
         where:
-        role          | status     | count  | username      | detailStatus
-        'ROLE_ADMIN'  | 200        | 2      | '13500000001' | 200
-        'ROLE_SELLER' | 200        | 2      | '1992003'     | 200
-        'ROLE_YH'     | 200        | 2      | '1992001'     | 200
-        'ROLE_YH'     | 403        | null   | '1992002'     | 403
-        null          | 401        | null   | 'null'        | 401
+        role          | status | count | username      | detailStatus
+        'ROLE_ADMIN'  | 200    | 2     | '13500000001' | 200
+        'ROLE_SELLER' | 200    | 2     | '1992003'     | 200
+        'ROLE_YH'     | 200    | 2     | '1992001'     | 200
+        'ROLE_YH'     | 403    | null  | '1992002'     | 403
+        null          | 401    | null  | 'null'        | 401
     }
 
     @Unroll
@@ -209,11 +209,11 @@ class OrderExecutionFunctionalSpec extends Specification{
         }
 
         where:
-        role          | status      | username
-        'ROLE_ADMIN'  | 200         | '13500000001'
-        'ROLE_SELLER' | 200         | '1992003'
-        'ROLE_YH'     | 200         | '1992001'
-        null          | 401         | ''
+        role          | status | username
+        'ROLE_ADMIN'  | 200    | '13500000001'
+        'ROLE_SELLER' | 200    | '1992003'
+        'ROLE_YH'     | 200    | '1992001'
+        null          | 401    | ''
     }
 
 }

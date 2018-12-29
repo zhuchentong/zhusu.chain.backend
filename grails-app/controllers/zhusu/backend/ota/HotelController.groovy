@@ -11,19 +11,18 @@ import grails.rest.*
 import grails.validation.ValidationException
 import zhusu.backend.user.User
 
-class HotelController extends RestfulController<Hotel>{
+class HotelController extends RestfulController<Hotel> {
 
     HotelService hotelService
-    UserService userService
     SpringSecurityService springSecurityService
 
-	static responseFormats = ['json', 'xml']
+    static responseFormats = ['json', 'xml']
     static allowedMethods = [save: 'POST', update: 'PUT', delete: 'DELETE']
 
     HotelController() {
         super(Hotel)
     }
-	
+
     def index(Integer max, String name, int minGrand, int maxGrand, double lat, double lng, int distance, String hotelType) {
         params.max = Math.min(max ?: 10, 100)
         params.sort = params.sort ?: 'id'

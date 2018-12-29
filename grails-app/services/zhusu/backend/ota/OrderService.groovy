@@ -90,7 +90,16 @@ abstract class OrderService {
 
     @Transactional(readOnly = true)
     int orderCounts(Map args = [:]) {
-        final String sql = "select d.datetime, count(*) from myorder o left join (select generate_series(to_date('${args.beginDate}', 'yyyy-MM-dd'), to_date('${args.endDate}', 'yyyy-MM-dd'), '1 day') datetime) d on d.datetime >= o.begin_date and d.datetime < o.end_date where o.room_id = ${args.roomId} group by d.datetime order by count(*) desc;"
+        final String sql = "select " +
+                                "d.datetime, count(*) " +
+                            "from myorder o " +
+                            "left join " +
+                            "(select " +
+                                    "generate_series(to_date('${args.beginDate}', 'yyyy-MM-dd'), to_date('${args.endDate}', 'yyyy-MM-dd'), '1 day') datetime) d " +
+                            "on d.datetime >= o.begin_date and d.datetime < o.end_date " +
+                            "where o.room_id = ${args.roomId} " +
+                            "group by d.datetime " +
+                            "order by count(*) desc;"
         List<Object> list = new ArrayList()
         Order.withSession { Session session ->
             list = session.createNativeQuery(sql).list()

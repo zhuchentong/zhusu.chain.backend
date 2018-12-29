@@ -13,7 +13,7 @@ import zhusu.backend.utils.TestUtils
 
 @Integration
 @Rollback
-class HotelFunctionalSpec extends Specification{
+class HotelFunctionalSpec extends Specification {
 
     void setup() {
         TestUtils.initEnv()
@@ -66,7 +66,7 @@ class HotelFunctionalSpec extends Specification{
         response.json.hotelCount == count
 
         when:
-        response = rest.get("http://localhost:${serverPort}/api/hotels/${hotel.id}"){
+        response = rest.get("http://localhost:${serverPort}/api/hotels/${hotel.id}") {
             if (role) {
                 header('Authorization', "Bearer ${jwt}")
             }

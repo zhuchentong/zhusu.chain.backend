@@ -9,7 +9,7 @@ import javax.xml.bind.ValidationException
 
 import static org.springframework.http.HttpStatus.*
 
-class OrderExecutionController extends RestfulController<OrderExecution>{
+class OrderExecutionController extends RestfulController<OrderExecution> {
 
     OrderExecutionService orderExecutionService
     OrderService orderService
@@ -21,7 +21,7 @@ class OrderExecutionController extends RestfulController<OrderExecution>{
     OrderExecutionController() {
         super(OrderExecution)
     }
-	
+
     def index(Integer max, Long orderId) {
         if (!orderId) {
             render status: UNPROCESSABLE_ENTITY
@@ -33,7 +33,10 @@ class OrderExecutionController extends RestfulController<OrderExecution>{
 
         User user = springSecurityService.currentUser
         Order order = orderService.get(orderId)
-        if (canBeReadBy(order, user)) {
+        if (!order) {
+            render status: NOT_FOUND
+            return
+        } else if (canBeReadBy(order, user)) {
             params.myOrder = order
         } else {
             render status: FORBIDDEN
@@ -64,7 +67,7 @@ class OrderExecutionController extends RestfulController<OrderExecution>{
 
         try {
             orderExecutionService.save(orderExecution)
-        } catch(ValidationException e) {
+        } catch (ValidationException e) {
             respond orderExecution.errors
             return
         }
@@ -78,7 +81,10 @@ class OrderExecutionController extends RestfulController<OrderExecution>{
         params.limit = 1
         User user = springSecurityService.currentUser
         Order order = orderService.get(orderId)
-        if (canBeReadBy(order, user)) {
+        if (!order) {
+            render status: NOT_FOUND
+            return
+        } else if (canBeReadBy(order, user)) {
             params.myOrder = order
         } else {
             render status: FORBIDDEN

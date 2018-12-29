@@ -17,6 +17,14 @@ des_key: ${DES_KEY:secret12}
 
 2\. Hotel模块
 
+3\. Room模块
+
+4\. Post模块
+
+5\. Order模块
+
+6\. OrderExecution模块
+
 ---
 
 ### Comment模块
@@ -30,6 +38,9 @@ des_key: ${DES_KEY:secret12}
 
 |参数|必选|类型|说明|
 |:-----  |:-------|:-----|-----|
+|max |false    |int|分页最大条数|
+|sort |false    |String|排序字段（默认：'id'）|
+|order |false    |String|正序（ESC）/倒序（DESC）|
 |writerId |true    |long|发表评论的用户id|
 |hotelId |true    |long|评论对应的酒店id|
 |ranking |true    |int|评论星级|
@@ -291,6 +302,7 @@ des_key: ${DES_KEY:secret12}
     "commentCount":3
 }
 ```
+
 ### Hotel模块
 
 **1.1\. Hotel CRUD**
@@ -302,6 +314,9 @@ des_key: ${DES_KEY:secret12}
 
 |参数|必选|类型|说明|
 |:-----  |:-------|:-----|-----|
+|max |false    |int|分页最大条数|
+|sort |false    |String|排序字段（默认：'id'）|
+|order |false    |String|正序（ESC）/倒序（DESC）|
 |name |false    |String|模糊匹配的名字|
 |minGrand |false    |int|最小星级 默认：1|
 |maxGrand |false    |int|最大星级 默认：7|
@@ -309,7 +324,7 @@ des_key: ${DES_KEY:secret12}
 |position |false    |String|查询中心点坐标|
 |distance |false    |int|查询范围距中心点半径 单位：公里|
 
-> 增加(POST [http://localhost:9002/api/hotels])
+> 增加(POST [http://localhost:9002/api/hotels] [管理员])
 
 |参数|必选|类型|说明|
 |:-----  |:-------|:-----|-----|
@@ -349,3 +364,253 @@ des_key: ${DES_KEY:secret12}
 
 > 删除(DELETE [http://localhost:9002/api/hotels/${id}] [管理员])
 
+### Room模块
+
+**1.1\. Room CRUD**
+###### 接口功能
+> 房间的增加、删除、修改、查询功能
+
+###### 使用方式
+> 查询(GET [http://localhost:9002/api/rooms])
+
+|参数|必选|类型|说明|
+|:-----  |:-------|:-----|-----|
+|max |false    |int|分页最大条数|
+|sort |false    |String|排序字段（默认：'id'）|
+|order |false    |String|正序（ESC）/倒序（DESC）|
+|hotelId |false    |String|酒店（HOTEL）/民宿（HOMESTAY）|
+
+> 增加(POST [http://localhost:9002/api/rooms] [管理员])
+
+|参数|必选|类型|说明|
+|:-----  |:-------|:-----|-----|
+|name |true    |String|房间名称|
+|hotel |true    |Hotel|所属酒店（仅包含id字段）|
+|photos |false    |String[]|照片列表|
+|total |true    |String|此类型房间数量|
+|attributes |false    |Map<String, Object>|房间描述|
+
+> 修改(PUT [http://localhost:9002/api/rooms/${id}] [管理员])
+
+|参数|必选|类型|说明|
+|:-----  |:-------|:-----|-----|
+|name |false    |String|房间名称|
+|hotel |false    |Hotel|所属酒店（仅包含id字段）|
+|photos |false    |String[]|照片列表|
+|total |false    |String|此类型房间数量|
+|attributes |false    |Map<String, Object>|房间描述|
+
+> 删除(DELETE [http://localhost:9002/api/rooms/${id}] [管理员])
+
+### Post模块
+
+**1.1\. Post CRUD**
+###### 接口功能
+> 公告的增加、删除、修改、查询功能
+
+###### 使用方式
+> 查询(GET [http://localhost:9002/api/posts])
+
+|参数|必选|类型|说明|
+|:-----  |:-------|:-----|-----|
+|max |false    |int|分页最大条数|
+|sort |false    |String|排序字段（默认：'id'）|
+|order |false    |String|正序（ESC）/倒序（DESC）|
+
+> 增加(POST [http://localhost:9002/api/posts] [管理员])
+
+|参数|必选|类型|说明|
+|:-----  |:-------|:-----|-----|
+|title |true    |String|房间名称|
+|content |true    |Hotel|所属酒店（仅包含id字段）|
+
+> 修改(PUT [http://localhost:9002/api/posts/${id}] [管理员])
+
+|参数|必选|类型|说明|
+|:-----  |:-------|:-----|-----|
+|title |false    |String|房间名称|
+|content |false    |Hotel|所属酒店（仅包含id字段）|
+
+> 删除(DELETE [http://localhost:9002/api/posts/${id}] [管理员])
+
+### Order模块
+
+**1.1\. Order CRUD**
+###### 接口功能
+> 订单的增加、删除、修改、查询功能
+
+###### 使用方式
+> 查询(GET [http://localhost:9002/api/orders])
+
+|参数|必选|类型|说明|
+|:-----  |:-------|:-----|-----|
+|max |false    |int|分页最大条数|
+|sort |false    |String|排序字段（默认：'id'）|
+|order |false    |String|正序（ESC）/倒序（DESC）|
+
+> 增加(POST [http://localhost:9002/api/orders] [用户、管理员])
+
+|参数|必选|类型|说明|
+|:-----  |:-------|:-----|-----|
+|user |true    |User|购买用户|
+|room |true    |Room|预定酒店|
+|beginDate |true    |String|入住日期 ex：2018-09-09 00：00：00|
+|endDate |true    |String| 退房日期 ex：2018-09-10 00：00：00|
+|attributes |false    |Map<String, Object>|订单其他属性|
+|memo |false    |String|备注|
+
+> 修改(PUT [http://localhost:9002/api/orders/${id}] [管理员])
+
+|参数|必选|类型|说明|
+|:-----  |:-------|:-----|-----|
+|user |true    |User|购买用户|
+|room |true    |Room|预定酒店|
+|beginDate |true    |String|入住日期 ex：2018-09-09 00：00：00|
+|endDate |true    |String| 退房日期 ex：2018-09-10 00：00：00|
+|attributes |false    |Map<String, Object>|订单其他属性|
+|memo |false    |String|备注|
+
+> 删除(DELETE [http://localhost:9002/api/orders/${id}] [管理员])
+
+**1.2\. confirm**
+###### 接口功能
+> 将订单由·创建·状态变更为·已确认·状态
+
+###### URL
+> [http://localhost:9002/api/orders/confirm](http://localhost:9002/api/orders/confirm [管理员、商家])
+
+###### 支持格式
+> JSON
+
+###### HTTP请求方式
+> GET
+
+###### 请求参数
+>
+|参数|必选|类型|说明|
+|:-----  |:-------|:-----|-----|
+|id |true    |long|需要变更状态的订单id|
+
+###### 接口示例
+> 地址：[http://localhost:9002/api/orders/confirm?id=1](http://localhost:9002/api/orders/confirm?id=1)
+
+**1.3\. checkIn**
+###### 接口功能
+> 将订单由·已确认·状态变更为·已入住·状态
+
+###### URL
+> [http://localhost:9002/api/orders/checkIn](http://localhost:9002/api/orders/checkIn [管理员、商家])
+
+###### 支持格式
+> JSON
+
+###### HTTP请求方式
+> GET
+
+###### 请求参数
+>
+|参数|必选|类型|说明|
+|:-----  |:-------|:-----|-----|
+|id |true    |long|需要变更状态的订单id|
+
+###### 接口示例
+> 地址：[http://localhost:9002/api/orders/checkIn?id=1](http://localhost:9002/api/orders/checkIn?id=1)
+
+**1.4\. checkOut**
+###### 接口功能
+> 将订单由·已入住·状态变更为·已离店·状态
+
+###### URL
+> [http://localhost:9002/api/orders/checkOut](http://localhost:9002/api/orders/checkOut [管理员、商家])
+
+###### 支持格式
+> JSON
+
+###### HTTP请求方式
+> GET
+
+###### 请求参数
+>
+|参数|必选|类型|说明|
+|:-----  |:-------|:-----|-----|
+|id |true    |long|需要变更状态的订单id|
+
+###### 接口示例
+> 地址：[http://localhost:9002/api/orders/checkOut?id=1](http://localhost:9002/api/orders/checkOut?id=1)
+
+**1.5\. cancel**
+###### 接口功能
+> 将订单由·非取消·状态变更为·取消·状态
+
+###### URL
+> [http://localhost:9002/api/orders/cancel](http://localhost:9002/api/orders/cancel [管理员])
+
+###### 支持格式
+> JSON
+
+###### HTTP请求方式
+> GET
+
+###### 请求参数
+>
+|参数|必选|类型|说明|
+|:-----  |:-------|:-----|-----|
+|id |true    |long|需要变更状态的订单id|
+
+###### 接口示例
+> 地址：[http://localhost:9002/api/orders/cancel?id=1](http://localhost:9002/api/orders/cancel?id=1)
+
+### OrderExecution模块
+
+**1.1\. OrderExecution CRUD**
+###### 接口功能
+> 订单执行步骤的增加、删除、修改、查询功能
+
+###### 使用方式
+> 查询(GET [http://localhost:9002/api/orderExecutions])
+
+|参数|必选|类型|说明|
+|:-----  |:-------|:-----|-----|
+|max |false    |int|分页最大条数|
+|sort |false    |String|排序字段（默认：'id'）|
+|order |false    |String|正序（ESC）/倒序（DESC）|
+
+> 增加(POST [http://localhost:9002/api/orderExecutions] [管理员])
+
+|参数|必选|类型|说明|
+|:-----  |:-------|:-----|-----|
+|order |true    |Order|所属订单|
+|status |true    |String|当前步骤状态|
+|memo |false    |String|备注|
+
+> 修改(PUT [http://localhost:9002/api/orderExecutions/${id}] [管理员])
+
+|参数|必选|类型|说明|
+|:-----  |:-------|:-----|-----|
+|order |true    |Order|所属订单|
+|status |true    |String|当前步骤状态|
+|memo |false    |String|备注|
+
+> 删除(DELETE [http://localhost:9002/api/orderExecutions/${id}] [管理员])
+
+**1.2\. last**
+###### 接口功能
+> 将订单由·非取消·状态变更为·取消·状态
+
+###### URL
+> [http://localhost:9002/api/orderExecutions/last](http://localhost:9002/api/orderExecutions/last [管理员])
+
+###### 支持格式
+> JSON
+
+###### HTTP请求方式
+> GET
+
+###### 请求参数
+>
+|参数|必选|类型|说明|
+|:-----  |:-------|:-----|-----|
+|orderId |true    |long|需要获取最新执行步骤的订单id|
+
+###### 接口示例
+> 地址：[http://localhost:9002/api/orderExecutions/last?orderId=1](http://localhost:9002/api/orderExecutions/last?orderId=1)

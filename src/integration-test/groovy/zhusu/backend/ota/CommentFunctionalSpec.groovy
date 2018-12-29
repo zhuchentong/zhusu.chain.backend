@@ -13,7 +13,7 @@ import zhusu.backend.utils.TestUtils
 
 @Integration
 @Rollback
-class CommentFunctionalSpec extends Specification{
+class CommentFunctionalSpec extends Specification {
 
     CommentService commentService
     HotelService hotelService
@@ -67,9 +67,9 @@ class CommentFunctionalSpec extends Specification{
         }
         String param = ''
         if (method == '/listByHotel') {
-            param = '?hotelId='+hotelId
+            param = '?hotelId=' + hotelId
         } else if (method == '/listByUser') {
-            param = '?userId='+userId
+            param = '?userId=' + userId
         } else if (method == '/listByRanking') {
             param = '?ranking=3'
         }
@@ -83,23 +83,23 @@ class CommentFunctionalSpec extends Specification{
         response.json.commentCount == count
 
         where:
-        method            | count       | role
-        ''                | 6           | 'ROLE_ADMIN'
-        '/listByHotel'    | 1           | 'ROLE_ADMIN'
-        '/listByUser'     | 2           | 'ROLE_ADMIN'
-        '/listByRanking'  | 3           | 'ROLE_ADMIN'
-        ''                | 6           | 'ROLE_SELLER'
-        '/listByHotel'    | 1           | 'ROLE_SELLER'
-        '/listByUser'     | 2           | 'ROLE_SELLER'
-        '/listByRanking'  | 3           | 'ROLE_SELLER'
-        ''                | 6           | 'ROLE_YH'
-        '/listByHotel'    | 1           | 'ROLE_YH'
-        '/listByUser'     | 2           | 'ROLE_YH'
-        '/listByRanking'  | 3           | 'ROLE_YH'
-        ''                | 6           | null
-        '/listByHotel'    | 1           | null
-        '/listByUser'     | 2           | null
-        '/listByRanking'  | 3           | null
+        method           | count | role
+        ''               | 6     | 'ROLE_ADMIN'
+        '/listByHotel'   | 1     | 'ROLE_ADMIN'
+        '/listByUser'    | 2     | 'ROLE_ADMIN'
+        '/listByRanking' | 3     | 'ROLE_ADMIN'
+        ''               | 6     | 'ROLE_SELLER'
+        '/listByHotel'   | 1     | 'ROLE_SELLER'
+        '/listByUser'    | 2     | 'ROLE_SELLER'
+        '/listByRanking' | 3     | 'ROLE_SELLER'
+        ''               | 6     | 'ROLE_YH'
+        '/listByHotel'   | 1     | 'ROLE_YH'
+        '/listByUser'    | 2     | 'ROLE_YH'
+        '/listByRanking' | 3     | 'ROLE_YH'
+        ''               | 6     | null
+        '/listByHotel'   | 1     | null
+        '/listByUser'    | 2     | null
+        '/listByRanking' | 3     | null
     }
 
     @Unroll
