@@ -11,6 +11,8 @@ import spock.lang.Unroll
 import zhusu.backend.user.User
 import zhusu.backend.utils.TestUtils
 
+import java.time.LocalDateTime
+
 @Integration
 @Rollback
 class RoomFunctionalSpec extends Specification {
@@ -161,19 +163,44 @@ class RoomFunctionalSpec extends Specification {
         null          | 'can not' | 401        | 401       | 401
     }
 
-    static void main(String[] args) {
+    @Unroll
+    void "#role #should 在存在关联信息情况下删除房间"() {
+        setup:
         RestBuilder rest = new RestBuilder()
-        RestResponse response = rest.post("http://localhost:9002/api/rooms") {
-            json {
-                name = '标准双人间'
-                hotel {
-                    id = 1
-                }
-                price = 12345
-                total = 20
+        RestResponse response
+        User currentUser
+        Hotel hotel
+        Room room
+        Hotel.withNewTransaction {
+            User commonUser = TestUtils.createUser('ROLE_YH', '1992001')
+            currentUser = TestUtils.createUser(role, '13500000001')
+            hotel = new Hotel(name: '北京和颐酒店1', totalRanking: 123, commenterCount: 49, location: '北京市天安门广场',
+                    description: '4星级酒店', hotelType: 'HOTEL', manager: currentUser, dateCreated: '2018-09-09 12:12:12',
+                    englishName: 'BeiJingHeYi', grand: 4, contact: '110', point: new GeometryFactory().createPoint(new Coordinate(10, 5))).save()
+            room = new Room(name: '标准大床房', hotel: hotel, price: 12345, total: 20, dateCreated: '2018-10-10 11:11:11').save()
+            new Order(buyer: commonUser, room: room, beginDate: LocalDateTime.now(), endDate: LocalDateTime.now()).save()
+        }
+        String jwt
+
+        when: 'delete'
+        if (role) {
+            jwt = TestUtils.login(serverPort, '13500000001', '13500000001')
+        }
+        response = rest.delete("http://localhost:${serverPort}/api/rooms/${room.id}") {
+            if (role) {
+                header('Authorization', "Bearer ${jwt}")
             }
         }
-        println(response.status)
+
+        then:
+        response.status == deleteStatus
+
+        where:
+        role          | should    | deleteStatus
+        'ROLE_ADMIN'  | 'can not' | 500
+        'ROLE_SELLER' | 'can not' | 403
+        'ROLE_YH'     | 'can not' | 403
+        null          | 'can not' | 401
     }
 
 }

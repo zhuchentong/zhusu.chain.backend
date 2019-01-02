@@ -105,20 +105,10 @@ class HotelController extends RestfulController<Hotel> {
         try {
             hotelService.delete(id)
         } catch (DataIntegrityViolationException e) {
-            return handleDataIntegrityViolationException(e, id)
+            return respond([state: 'error', message: e.cause.cause.message], status: 500)
         }
 
         render status: NO_CONTENT
-    }
-
-    void handleDataIntegrityViolationException(DataIntegrityViolationException e, Long id) {
-        String tableName = "unknown"
-        String detailMessage = e.cause.cause.message.find(/is still referenced from table ".*"./)
-        if (detailMessage.length() > 0) {
-            tableName = detailMessage[32..detailMessage.length() - 3]
-        }
-        String message = "表 ${tableName} 中存在对数据 [id = ${id}] 的引用，请处理引用后尝试删除。"
-        respond([state: 'error', message: message, data: e.stackTrace], status: 500)
     }
 
 }
