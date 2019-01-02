@@ -3,6 +3,7 @@ package zhusu.backend.ota
 import grails.gorm.PagedResultList
 import grails.rest.*
 import grails.validation.ValidationException
+import org.springframework.dao.DataIntegrityViolationException
 
 import static org.springframework.http.HttpStatus.*
 
@@ -56,6 +57,26 @@ class RoomController extends RestfulController<Room> {
         }
 
         render status: CREATED
+    }
+
+    def delete(Long id) {
+        try {
+            roomService.delete(id)
+        } catch (DataIntegrityViolationException e) {
+            return handleDataIntegrityViolationException(e, id)
+        }
+
+        render status: NO_CONTENT
+    }
+
+    void handleDataIntegrityViolationException(DataIntegrityViolationException e, Long id) {
+        String tableName = "unknown"
+        String detailMessage = e.cause.cause.message.find(/is still referenced from table ".*"./)
+        if (detailMessage.length() > 0) {
+            tableName = detailMessage[32..detailMessage.length() - 3]
+        }
+        String message = "表 ${tableName} 中存在对数据 [id = ${id}] 的引用，请处理引用后尝试删除。"
+        respond([state: 'error', message: message, data: e.stackTrace], status: 500)
     }
 
 }

@@ -2,7 +2,7 @@ package zhusu.backend.ota
 
 import com.vividsolutions.jts.geom.Coordinate
 import com.vividsolutions.jts.geom.GeometryFactory
-import zhusu.backend.user.UserService
+import org.springframework.dao.DataIntegrityViolationException
 
 import static org.springframework.http.HttpStatus.*
 import grails.gorm.PagedResultList
@@ -99,6 +99,26 @@ class HotelController extends RestfulController<Hotel> {
         }
 
         render status: OK
+    }
+
+    def delete(Long id) {
+        try {
+            hotelService.delete(id)
+        } catch (DataIntegrityViolationException e) {
+            return handleDataIntegrityViolationException(e, id)
+        }
+
+        render status: NO_CONTENT
+    }
+
+    void handleDataIntegrityViolationException(DataIntegrityViolationException e, Long id) {
+        String tableName = "unknown"
+        String detailMessage = e.cause.cause.message.find(/is still referenced from table ".*"./)
+        if (detailMessage.length() > 0) {
+            tableName = detailMessage[32..detailMessage.length() - 3]
+        }
+        String message = "表 ${tableName} 中存在对数据 [id = ${id}] 的引用，请处理引用后尝试删除。"
+        respond([state: 'error', message: message, data: e.stackTrace], status: 500)
     }
 
 }
