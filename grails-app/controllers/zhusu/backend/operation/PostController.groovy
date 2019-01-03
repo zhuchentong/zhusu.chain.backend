@@ -20,10 +20,15 @@ class PostController extends RestfulController<Post> {
         super(Post)
     }
 
-    def index(Integer max) {
+    def index(Integer max, String published) {
         params.max = Math.min(max ?: 10, 100)
         params.sort = params.sort ?: 'id'
         params.order = params.order ?: 'desc'
+        if ('published' == published) {
+            params.published = true
+        } else if ('unpublished' == published) {
+            params.published = false
+        }
 
         User user = springSecurityService.currentUser
         // 非管理员只能看到发布后的公告列表
