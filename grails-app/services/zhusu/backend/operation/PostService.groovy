@@ -24,7 +24,7 @@ abstract class PostService {
     @Transactional(readOnly = true)
     List<Post> list(Map args = [:]) {
         Post.createCriteria().list(args) {
-            if (null != args.published) {
+            if (null != args.published && '' != args.published) {
                 eq('published', args.published)
             }
 
