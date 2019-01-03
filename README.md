@@ -416,7 +416,7 @@ des_key: ${DES_KEY:secret12}
 |max |false    |int|分页最大条数|
 |sort |false    |String|排序字段（默认：'id'）|
 |order |false    |String|正序（ESC）/倒序（DESC）|
-|published |false    |String|已发布（published）/未发布（unpublished）/全部(undefined)|
+|published |false    |String|已发布（published）/未发布（unpublished）/全部(不传此参数)|
 
 > 增加(POST [http://localhost:9002/api/posts] [管理员])
 

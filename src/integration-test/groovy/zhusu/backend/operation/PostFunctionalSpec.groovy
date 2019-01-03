@@ -35,7 +35,7 @@ class PostFunctionalSpec extends Specification {
 
         when:
         String jwt
-        if(role) {
+        if (role) {
             jwt = TestUtils.login(serverPort, '13500000001', '13500000001')
         }
         response = rest.get("http://localhost:${serverPort}/api/posts") {
@@ -56,6 +56,72 @@ class PostFunctionalSpec extends Specification {
     }
 
     @Unroll
+    void "#role 可以根据已发布/未发布条件筛选广告列表"() {
+        setup:
+        RestBuilder rest = new RestBuilder()
+        RestResponse response
+        Post.withNewTransaction {
+            if (role) {
+                TestUtils.createUser(role, '13500000001')
+            }
+            new Post(title: 'title', content: 'content', published: true).save()
+            new Post(title: 'title', content: 'content', published: true).save()
+            new Post(title: 'title', content: 'content', published: false).save()
+        }
+        String jwt
+
+        when:
+        if (role) {
+            jwt = TestUtils.login(serverPort, '13500000001', '13500000001')
+        }
+        response = rest.get("http://localhost:${serverPort}/api/posts?published=published") {
+            if (role) {
+                header('Authorization', "Bearer ${jwt}")
+            }
+        }
+
+        then:
+        response.json.postCount == publishedCount
+
+        when:
+        response = rest.get("http://localhost:${serverPort}/api/posts?published=unpublished") {
+            if (role) {
+                header('Authorization', "Bearer ${jwt}")
+            }
+        }
+
+        then:
+        response.json.postCount == unpublishedCount
+
+        when:
+        response = rest.get("http://localhost:${serverPort}/api/posts") {
+            if (role) {
+                header('Authorization', "Bearer ${jwt}")
+            }
+        }
+
+        then:
+        response.json.postCount == nullCount
+
+        when:
+        response = rest.get("http://localhost:${serverPort}/api/posts?published=") {
+            if (role) {
+                header('Authorization', "Bearer ${jwt}")
+            }
+        }
+
+        then:
+        response.json.postCount == undefinedCount
+
+        where:
+        role          | publishedCount | unpublishedCount | nullCount | undefinedCount
+        'ROLE_ADMIN'  | 2              | 1                | 3         | 3
+        'ROLE_SELLER' | 2              | 2                | 2         | 2
+        'ROLE_YH'     | 2              | 2                | 2         | 2
+        null          | 2              | 2                | 2         | 2
+    }
+
+    @Unroll
     void "#role 访问 published = #published 的广告，返回状态码：#status"() {
         setup:
         RestBuilder rest = new RestBuilder()
@@ -70,7 +136,7 @@ class PostFunctionalSpec extends Specification {
 
         when:
         String jwt
-        if(role) {
+        if (role) {
             jwt = TestUtils.login(serverPort, '13500000001', '13500000001')
         }
         response = rest.get("http://localhost:${serverPort}/api/posts/${post.id}") {
