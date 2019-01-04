@@ -56,7 +56,7 @@ class PostFunctionalSpec extends Specification {
     }
 
     @Unroll
-    void "#role 可以根据已发布/未发布条件筛选广告列表"() {
+    void "#role 可以根据published参数查询到对应的广告列表"() {
         setup:
         RestBuilder rest = new RestBuilder()
         RestResponse response

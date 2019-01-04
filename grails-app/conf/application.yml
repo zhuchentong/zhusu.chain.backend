@@ -39,11 +39,11 @@ management.info.git.mode: full
 aliyun:
     oss:
         endpoint: ${ALIYUN_OSS_ENDPOINT:oss-cn-hangzhou.aliyuncs.com}
-        accessKeyId: ${ALIYUN_OSS_ACCESS_KEY_ID:mock}
-        accessKeySeret: ${ALIYUN_OSS_ACCESS_KEY_SECRET:mock}
-        bucket: ${ALIYUN_OSS_BUCKET:mock}
+        accessKeyId: ${ALIYUN_OSS_ACCESS_KEY_ID:LTAILQ8KFsDuBJ0K}
+        accessKeySeret: ${ALIYUN_OSS_ACCESS_KEY_SECRET:OvzBZbn5ZiBLEFO0R1DbHQBgJVJrjG}
+        bucket: ${ALIYUN_OSS_BUCKET:zhusu}
         dir: ${ALIYUN_OSS_DIR:}
-        cdnUrl: ${ALIYUN_OSS_CDNURL:mock}
+        cdnUrl: ${ALIYUN_OSS_CDNURL:https://zhusu.shifudao.com/}
 
 des_key: ${DES_KEY:secret12}
 
