@@ -38,6 +38,9 @@ class BootStrap {
                 User user3 = new User(username: '19920002', password: '19920002', displayName: '19920002')
                 userService.createUserWithRole(user3, 'ROLE_YH')
 
+                new Hotel(name: '北京和颐酒店2', totalRanking: 123, commenterCount: 49, location: '北京市天安门广场',
+                        description: '4星级酒店', hotelType: 'HOTEL', manager: user2, dateCreated: '2018-09-09 12:12:12',
+                        englishName: 'BeiJingHeYi', grand: 4, contact: '110', point: new GeometryFactory().createPoint(new Coordinate(10, 5))).save()
                 Hotel hotel = new Hotel(name: '北京和颐酒店3', totalRanking: 123, commenterCount: 49, location: '北京市天安门广场',
                         description: '4星级酒店', hotelType: 'HOTEL', manager: user2, dateCreated: '2018-09-09 12:12:12',
                         englishName: 'BeiJingHeYi', grand: 4, contact: '110', point: new GeometryFactory().createPoint(new Coordinate(10, 5))).save()
