@@ -1,10 +1,18 @@
 package zhusu.backend
 
+import com.vividsolutions.jts.geom.Coordinate
+import com.vividsolutions.jts.geom.GeometryFactory
 import groovy.util.logging.Slf4j
 import org.springframework.boot.info.GitProperties
+import zhusu.backend.ota.Comment
+import zhusu.backend.ota.Hotel
+import zhusu.backend.ota.Order
+import zhusu.backend.ota.Room
 import zhusu.backend.user.Role
 import zhusu.backend.user.User
 import zhusu.backend.user.UserService
+
+import java.time.LocalDateTime
 
 @Slf4j
 class BootStrap {
@@ -25,6 +33,20 @@ class BootStrap {
                 }
                 User user = new User(username: '13572209183', password: 'admin', displayName: 'admin')
                 userService.createUserWithRole(user, 'ROLE_ADMIN')
+                User user2 = new User(username: '19920001', password: '19920001', displayName: '19920001')
+                userService.createUserWithRole(user2, 'ROLE_SELLER')
+                User user3 = new User(username: '19920002', password: '19920002', displayName: '19920002')
+                userService.createUserWithRole(user3, 'ROLE_YH')
+
+                Hotel hotel = new Hotel(name: '北京和颐酒店3', totalRanking: 123, commenterCount: 49, location: '北京市天安门广场',
+                        description: '4星级酒店', hotelType: 'HOTEL', manager: user2, dateCreated: '2018-09-09 12:12:12',
+                        englishName: 'BeiJingHeYi', grand: 4, contact: '110', point: new GeometryFactory().createPoint(new Coordinate(10, 5))).save()
+
+                new Comment(writer: user3, hotel: hotel, ranking: 3, content: '我喔喔喔喔', dateCreated: '2018-08-08 11:11:11').save()
+
+                Room room = new Room(name: '标准大床房', hotel: hotel, price: 12345, total: 20, dateCreated: '2018-10-10 11:11:11').save()
+
+                new Order(buyer: user3, room: room, beginDate: LocalDateTime.now(), endDate: LocalDateTime.now()).save()
             }
         }
     }
