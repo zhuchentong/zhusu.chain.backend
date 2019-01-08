@@ -16,7 +16,7 @@ test:
   stage: test
   variables:
     PGHOST: 47.96.6.65
-    PGDATABASE: zhusu_test
+    PGDATABASE: zhusu
     PGUSER: zhusu_admin
     PGPASSWORD: admin
   script:
