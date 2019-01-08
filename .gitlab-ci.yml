@@ -25,10 +25,6 @@ test:
     - export
     - psql -c '\q'
     - ./gradlew -Dorg.gradle.daemon=false -Dfile.encoding=UTF-8 check
-  artifacts:
-    reports:
-      junit: 'build/test-results/**/*.xml'
-    expire_in: 1 day
 
 部署测试环境:
   stage: deploy
