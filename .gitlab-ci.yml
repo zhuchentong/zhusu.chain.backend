@@ -30,10 +30,10 @@ test:
   stage: deploy
   variables:
     WAR: backend-0.1.war
-    SERVICE: jupiter-backend
+    SERVICE: zhusu-backend
     REMOTE_HOST: api.aqiuyi.com
-    REMOTE_DIR: /usr/local/jupiter
-    URL: https://jupiter-backend.shifudao.com/
+    REMOTE_DIR: /usr/local/zhusu
+    URL: https://zhusu-backend.shifudao.com/
   script:
     - '[ ! -f "build/libs/${WAR}" ] && ./gradlew -Dorg.gradle.daemon=false -Dfile.encoding=UTF-8 assemble'
     - rsync -e "ssh -o StrictHostKeyChecking=no" "build/libs/${WAR}" root@${REMOTE_HOST}:"/tmp/${WAR}"
@@ -46,4 +46,4 @@ test:
   dependencies:
     - build
   only:
-    - branches@jupiter/backend
+    - branches@zhusu/backend
