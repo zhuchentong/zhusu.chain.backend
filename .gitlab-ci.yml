@@ -16,8 +16,8 @@ test:
   stage: test
   variables:
     PGHOST: 127.0.0.1
-    PGDATABASE: jupiter_test
-    PGUSER: jupiter_admin
+    PGDATABASE: zhusu
+    PGUSER: zhusu_admin
     PGPASSWORD: admin
   script:
     - which java
