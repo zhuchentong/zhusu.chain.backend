@@ -38,10 +38,52 @@ class BootStrap {
                 User user3 = new User(username: '19920002', password: '19920002', displayName: '19920002')
                 userService.createUserWithRole(user3, 'ROLE_YH')
 
+                new Hotel(name: '北京和颐酒店1', totalRanking: 123, commenterCount: 49, location: '北京市天安门广场',
+                        description: '4星级酒店', hotelType: 'HOTEL', manager: user2, dateCreated: '2018-09-09 12:12:12',
+                        englishName: 'BeiJingHeYi', grand: 4, contact: '110', point: new GeometryFactory().createPoint(new Coordinate(10, 5))).save()
                 new Hotel(name: '北京和颐酒店2', totalRanking: 123, commenterCount: 49, location: '北京市天安门广场',
                         description: '4星级酒店', hotelType: 'HOTEL', manager: user2, dateCreated: '2018-09-09 12:12:12',
                         englishName: 'BeiJingHeYi', grand: 4, contact: '110', point: new GeometryFactory().createPoint(new Coordinate(10, 5))).save()
-                Hotel hotel = new Hotel(name: '北京和颐酒店3', totalRanking: 123, commenterCount: 49, location: '北京市天安门广场',
+                new Hotel(name: '北京和颐酒店3', totalRanking: 123, commenterCount: 49, location: '北京市天安门广场',
+                        description: '4星级酒店', hotelType: 'HOTEL', manager: user2, dateCreated: '2018-09-09 12:12:12',
+                        englishName: 'BeiJingHeYi', grand: 4, contact: '110', point: new GeometryFactory().createPoint(new Coordinate(10, 5))).save()
+                new Hotel(name: '北京和颐酒店4', totalRanking: 123, commenterCount: 49, location: '北京市天安门广场',
+                        description: '4星级酒店', hotelType: 'HOTEL', manager: user2, dateCreated: '2018-09-09 12:12:12',
+                        englishName: 'BeiJingHeYi', grand: 4, contact: '110', point: new GeometryFactory().createPoint(new Coordinate(10, 5))).save()
+                new Hotel(name: '北京和颐酒店5', totalRanking: 123, commenterCount: 49, location: '北京市天安门广场',
+                        description: '4星级酒店', hotelType: 'HOTEL', manager: user2, dateCreated: '2018-09-09 12:12:12',
+                        englishName: 'BeiJingHeYi', grand: 4, contact: '110', point: new GeometryFactory().createPoint(new Coordinate(10, 5))).save()
+                new Hotel(name: '北京和颐酒店6', totalRanking: 123, commenterCount: 49, location: '北京市天安门广场',
+                        description: '4星级酒店', hotelType: 'HOTEL', manager: user2, dateCreated: '2018-09-09 12:12:12',
+                        englishName: 'BeiJingHeYi', grand: 4, contact: '110', point: new GeometryFactory().createPoint(new Coordinate(10, 5))).save()
+                new Hotel(name: '北京和颐酒店7', totalRanking: 123, commenterCount: 49, location: '北京市天安门广场',
+                        description: '4星级酒店', hotelType: 'HOTEL', manager: user2, dateCreated: '2018-09-09 12:12:12',
+                        englishName: 'BeiJingHeYi', grand: 4, contact: '110', point: new GeometryFactory().createPoint(new Coordinate(10, 5))).save()
+                new Hotel(name: '北京和颐酒店8', totalRanking: 123, commenterCount: 49, location: '北京市天安门广场',
+                        description: '4星级酒店', hotelType: 'HOTEL', manager: user2, dateCreated: '2018-09-09 12:12:12',
+                        englishName: 'BeiJingHeYi', grand: 4, contact: '110', point: new GeometryFactory().createPoint(new Coordinate(10, 5))).save()
+                new Hotel(name: '北京和颐酒店9', totalRanking: 123, commenterCount: 49, location: '北京市天安门广场',
+                        description: '4星级酒店', hotelType: 'HOTEL', manager: user2, dateCreated: '2018-09-09 12:12:12',
+                        englishName: 'BeiJingHeYi', grand: 4, contact: '110', point: new GeometryFactory().createPoint(new Coordinate(10, 5))).save()
+                new Hotel(name: '北京和颐酒店10', totalRanking: 123, commenterCount: 49, location: '北京市天安门广场',
+                        description: '4星级酒店', hotelType: 'HOTEL', manager: user2, dateCreated: '2018-09-09 12:12:12',
+                        englishName: 'BeiJingHeYi', grand: 4, contact: '110', point: new GeometryFactory().createPoint(new Coordinate(10, 5))).save()
+                new Hotel(name: '北京和颐酒店11', totalRanking: 123, commenterCount: 49, location: '北京市天安门广场',
+                        description: '4星级酒店', hotelType: 'HOTEL', manager: user2, dateCreated: '2018-09-09 12:12:12',
+                        englishName: 'BeiJingHeYi', grand: 4, contact: '110', point: new GeometryFactory().createPoint(new Coordinate(10, 5))).save()
+                new Hotel(name: '北京和颐酒店12', totalRanking: 123, commenterCount: 49, location: '北京市天安门广场',
+                        description: '4星级酒店', hotelType: 'HOTEL', manager: user2, dateCreated: '2018-09-09 12:12:12',
+                        englishName: 'BeiJingHeYi', grand: 4, contact: '110', point: new GeometryFactory().createPoint(new Coordinate(10, 5))).save()
+                new Hotel(name: '北京和颐酒店13', totalRanking: 123, commenterCount: 49, location: '北京市天安门广场',
+                        description: '4星级酒店', hotelType: 'HOTEL', manager: user2, dateCreated: '2018-09-09 12:12:12',
+                        englishName: 'BeiJingHeYi', grand: 4, contact: '110', point: new GeometryFactory().createPoint(new Coordinate(10, 5))).save()
+                new Hotel(name: '北京和颐酒店14', totalRanking: 123, commenterCount: 49, location: '北京市天安门广场',
+                        description: '4星级酒店', hotelType: 'HOTEL', manager: user2, dateCreated: '2018-09-09 12:12:12',
+                        englishName: 'BeiJingHeYi', grand: 4, contact: '110', point: new GeometryFactory().createPoint(new Coordinate(10, 5))).save()
+                new Hotel(name: '北京和颐酒店15', totalRanking: 123, commenterCount: 49, location: '北京市天安门广场',
+                        description: '4星级酒店', hotelType: 'HOTEL', manager: user2, dateCreated: '2018-09-09 12:12:12',
+                        englishName: 'BeiJingHeYi', grand: 4, contact: '110', point: new GeometryFactory().createPoint(new Coordinate(10, 5))).save()
+                Hotel hotel = new Hotel(name: '北京和颐酒店16', totalRanking: 123, commenterCount: 49, location: '北京市天安门广场',
                         description: '4星级酒店', hotelType: 'HOTEL', manager: user2, dateCreated: '2018-09-09 12:12:12',
                         englishName: 'BeiJingHeYi', grand: 4, contact: '110', point: new GeometryFactory().createPoint(new Coordinate(10, 5))).save()
 

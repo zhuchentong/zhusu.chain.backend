@@ -17,9 +17,9 @@ build:
   variables:
     WAR: backend-0.1.war
     SERVICE: zhusu-backend
-    REMOTE_HOST: api.aqiuyi.com
+    REMOTE_HOST: 47.110.130.153
     REMOTE_DIR: /usr/local/zhusu
-    URL: https://zhusu-backend.shifudao.com/
+    URL: 47.110.130.153
   script:
     - '[ ! -f "build/libs/${WAR}" ] && ./gradlew -Dorg.gradle.daemon=false -Dfile.encoding=UTF-8 assemble'
     - rsync -e "ssh -o StrictHostKeyChecking=no" "build/libs/${WAR}" root@${REMOTE_HOST}:"/tmp/${WAR}"
@@ -32,4 +32,4 @@ build:
   dependencies:
     - build
   only:
-    - branches@zhusu/backend
+    - branches@yizhilee/backend
