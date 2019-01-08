@@ -12,20 +12,6 @@ build:
   only:
     - branches
 
-test:
-  stage: test
-  variables:
-    PGHOST: 47.96.6.65
-    PGDATABASE: zhusu
-    PGUSER: zhusu_admin
-    PGPASSWORD: admin
-  script:
-    - which java
-    - java -version
-    - export
-    - psql -c '\q'
-    - ./gradlew -Dorg.gradle.daemon=false -Dfile.encoding=UTF-8 check
-
 部署测试环境:
   stage: deploy
   variables:
