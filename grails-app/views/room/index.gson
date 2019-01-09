@@ -1,0 +1,15 @@
+import grails.orm.PagedResultList
+import zhusu.backend.ota.Room
+
+model {
+    List<Room> roomList = []
+}
+
+json {
+    roomList tmpl.room(roomList)
+    if (roomList instanceof PagedResultList) {
+        hotelCount((roomList as PagedResultList).totalCount)
+    } else {
+        hotelCount(roomList.size())
+    }
+}

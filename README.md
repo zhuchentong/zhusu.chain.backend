@@ -402,6 +402,30 @@ des_key: ${DES_KEY:secret12}
 
 > 删除(DELETE [http://localhost:9002/api/rooms/${id}] [管理员])
 
+**1.2\. orders**
+###### 接口功能
+> 获取当前房间已经被预定的数量
+
+###### URL
+> [http://localhost:9002/api/rooms/orders](http://localhost:9002/api/rooms/orders [管理员])
+
+###### 支持格式
+> JSON
+
+###### HTTP请求方式
+> GET
+
+###### 请求参数
+>
+|参数|必选|类型|说明|
+|:-----  |:-------|:-----|-----|
+|roomId |true    |long|房间的id|
+|beginDate |true    |string|开始日期(Format: 2018-09-09 00:00:00)|
+|endDate |true    |string|结束日期(Format: 2018-09-10 00:00:00)|
+
+###### 接口示例
+> 地址：[http://localhost:9002/api/rooms/orders?roomId=1&beginDate=2018-09-09 00:00:00&endDate=2018-09-10 00:00:00](http://localhost:9002/api/rooms/orders?roomId=1&beginDate=2018-09-09 00:00:00&endDate=2018-09-10 00:00:00)
+
 ### Post模块
 
 **1.1\. Post CRUD**
