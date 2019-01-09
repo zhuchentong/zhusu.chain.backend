@@ -11,6 +11,7 @@ class RoomController extends RestfulController<Room> {
 
     RoomService roomService
     HotelService hotelService
+    OrderService orderService
 
     static responseFormats = ['json', 'xml']
     static allowedMethods = [save: 'POST', update: 'PUT', delete: 'DELETE']
@@ -67,6 +68,11 @@ class RoomController extends RestfulController<Room> {
         }
 
         render status: NO_CONTENT
+    }
+
+    def orders() {
+        int count = orderService.orderCounts(params)
+        respond ([count: count])
     }
 
 }

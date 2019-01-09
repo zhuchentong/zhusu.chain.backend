@@ -1,0 +1,8 @@
+import groovy.transform.*
+import zhusu.backend.ota.Room
+
+@Field Room room
+
+json g.render(room, [deep: true]) {
+    attributes room.attributes
+}

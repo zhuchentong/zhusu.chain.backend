@@ -29,6 +29,7 @@ class UrlMappings {
         "/api/comments/listByRanking"(controller: 'Comment', action: 'listByRanking')
         "/api/hotels"(resources: 'Hotel')
         "/api/rooms"(resources: 'Room')
+        "/api/rooms/orders"(controller: 'Room', action: 'orders')
         "/api/tags"(resources: 'Tag')
         "/api/orders"(resources: 'Order')
         "/api/orders/confirm"(controller: 'Order', action: 'confirm')
