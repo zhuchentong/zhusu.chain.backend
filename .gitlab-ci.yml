@@ -25,7 +25,6 @@ build:
     - rsync -e "ssh -o StrictHostKeyChecking=no" "build/libs/${WAR}" root@${REMOTE_HOST}:"/tmp/${WAR}"
     - ssh -o StrictHostKeyChecking=no root@${REMOTE_HOST} "systemctl stop ${SERVICE} && mv '${REMOTE_DIR}/${WAR}' '${REMOTE_DIR}/${WAR}.bak'; mv '/tmp/${WAR}' '${REMOTE_DIR}/${WAR}' && systemctl start ${SERVICE}"
     - for i in $(seq 15); do curl -sfL --connect-timeout 30 "${URL}" && exit || sleep 5; done && exit 1
-  when: manual
   environment:
     name: stage
     url: ${URL}
