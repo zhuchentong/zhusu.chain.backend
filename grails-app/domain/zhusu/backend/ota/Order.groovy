@@ -40,6 +40,7 @@ class Order {
     static List<String> availableStatus() {
         [
                 'CREATED'         // 创建
+                , 'PAID'          // 付款
                 , 'CONFIRMED'     // 确认
                 , 'CHECKIN'       // 入住
                 , 'CHECKOUT'      // 离开

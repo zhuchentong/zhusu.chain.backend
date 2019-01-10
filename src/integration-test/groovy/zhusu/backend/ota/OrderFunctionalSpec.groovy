@@ -291,6 +291,25 @@ class OrderFunctionalSpec extends Specification {
         if (role) {
             jwt = TestUtils.login(serverPort, '13500000001', '13500000001')
         }
+        response = rest.get("http://localhost:${serverPort}/api/orders/pay?id=${order.id}") {
+            if (role) {
+                header('Authorization', "Bearer ${jwt}")
+            }
+        }
+
+        then:
+        response.status == status
+        if (status == 200) {
+            order.refresh()
+            List<OrderExecution> orderExecutionList = OrderExecution.findAllByOrder(order)
+            assert order.status == 'PAID'
+            assert orderExecutionList.size() == 2
+        }
+
+        when:
+        if (role) {
+            jwt = TestUtils.login(serverPort, '13500000001', '13500000001')
+        }
         response = rest.get("http://localhost:${serverPort}/api/orders/confirm?id=${order.id}") {
             if (role) {
                 header('Authorization', "Bearer ${jwt}")
@@ -302,7 +321,8 @@ class OrderFunctionalSpec extends Specification {
         if (status == 200) {
             order.refresh()
             List<OrderExecution> orderExecutionList = OrderExecution.findAllByOrder(order)
-            assert orderExecutionList.size() == 2
+            assert order.status == 'CONFIRMED'
+            assert orderExecutionList.size() == 3
         }
 
         when:
@@ -321,7 +341,7 @@ class OrderFunctionalSpec extends Specification {
             order.refresh()
             List<OrderExecution> orderExecutionList = OrderExecution.findAllByOrder(order)
             assert order.status == 'CHECKIN'
-            assert orderExecutionList.size() == 3
+            assert orderExecutionList.size() == 4
         }
 
         when:
@@ -340,7 +360,7 @@ class OrderFunctionalSpec extends Specification {
             order.refresh()
             List<OrderExecution> orderExecutionList = OrderExecution.findAllByOrder(order)
             assert order.status == 'CHECKOUT'
-            assert orderExecutionList.size() == 4
+            assert orderExecutionList.size() == 5
         }
 
         when:
@@ -359,7 +379,7 @@ class OrderFunctionalSpec extends Specification {
             order.refresh()
             List<OrderExecution> orderExecutionList = OrderExecution.findAllByOrder(order)
             assert order.status == 'CANCELED'
-            assert orderExecutionList.size() == 5
+            assert orderExecutionList.size() == 6
         }
 
         where:

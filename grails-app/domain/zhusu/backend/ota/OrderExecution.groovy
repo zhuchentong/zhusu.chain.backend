@@ -31,8 +31,9 @@ class OrderExecution {
 
     static List<String> availableStatus() {
         [
-                'CREATED',      //创建
-                'CONFIRMED'     // 确认
+                'CREATED'         // 创建
+                , 'PAID'          // 付款
+                , 'CONFIRMED'     // 确认
                 , 'CHECKIN'       // 入住
                 , 'CHECKOUT'      // 离开
                 , 'CANCELED'      // 取消

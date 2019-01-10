@@ -27,7 +27,7 @@ class BootStrap {
                 , gitProperties.getDate('build.time'))
 
         environments {
-            development {
+            /*development {
                 Role.validRoles().each {
                     new Role(authority: it).save()
                 }
@@ -92,7 +92,7 @@ class BootStrap {
                 Room room = new Room(name: '标准大床房', hotel: hotel, price: 12345, total: 20, dateCreated: '2018-10-10 11:11:11').save()
 
                 new Order(buyer: user3, room: room, beginDate: LocalDateTime.now(), endDate: LocalDateTime.now()).save()
-            }
+            }*/
         }
     }
     def destroy = {
