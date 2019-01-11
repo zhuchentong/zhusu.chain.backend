@@ -33,6 +33,17 @@ abstract class OrderService {
     }
 
     @Transactional
+    void pay(Order order, User user) {
+        order.setStatus('PAID')
+        order.save()
+        OrderExecution orderExecution = new OrderExecution()
+        orderExecution.setOrder(order)
+        orderExecution.setStatus('PAID')
+        orderExecution.setOperator(user)
+        orderExecution.save()
+    }
+
+    @Transactional
     void confirm(Order order, User user) {
         order.setStatus('CONFIRMED')
         order.save()

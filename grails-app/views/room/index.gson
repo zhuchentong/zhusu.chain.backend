@@ -8,8 +8,8 @@ model {
 json {
     roomList tmpl.room(roomList)
     if (roomList instanceof PagedResultList) {
-        hotelCount((roomList as PagedResultList).totalCount)
+        roomCount((roomList as PagedResultList).totalCount)
     } else {
-        hotelCount(roomList.size())
+        roomCount(roomList.size())
     }
 }

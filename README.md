@@ -497,9 +497,31 @@ des_key: ${DES_KEY:secret12}
 
 > 删除(DELETE [http://localhost:9002/api/orders/${id}] [管理员])
 
-**1.2\. confirm**
+**1.2\. pay**
 ###### 接口功能
-> 将订单由·创建·状态变更为·已确认·状态
+> 将订单由·创建·状态变更为·已付款·状态
+
+###### URL
+> [http://localhost:9002/api/orders/pay](http://localhost:9002/api/orders/pay [管理员、商家])
+
+###### 支持格式
+> JSON
+
+###### HTTP请求方式
+> GET
+
+###### 请求参数
+>
+|参数|必选|类型|说明|
+|:-----  |:-------|:-----|-----|
+|id |true    |long|需要变更状态的订单id|
+
+###### 接口示例
+> 地址：[http://localhost:9002/api/orders/pay?id=1](http://localhost:9002/api/orders/pay?id=1)
+
+**1.3\. confirm**
+###### 接口功能
+> 将订单由·已付款·状态变更为·已确认·状态
 
 ###### URL
 > [http://localhost:9002/api/orders/confirm](http://localhost:9002/api/orders/confirm [管理员、商家])
@@ -519,7 +541,7 @@ des_key: ${DES_KEY:secret12}
 ###### 接口示例
 > 地址：[http://localhost:9002/api/orders/confirm?id=1](http://localhost:9002/api/orders/confirm?id=1)
 
-**1.3\. checkIn**
+**1.4\. checkIn**
 ###### 接口功能
 > 将订单由·已确认·状态变更为·已入住·状态
 
@@ -541,7 +563,7 @@ des_key: ${DES_KEY:secret12}
 ###### 接口示例
 > 地址：[http://localhost:9002/api/orders/checkIn?id=1](http://localhost:9002/api/orders/checkIn?id=1)
 
-**1.4\. checkOut**
+**1.5\. checkOut**
 ###### 接口功能
 > 将订单由·已入住·状态变更为·已离店·状态
 
@@ -563,7 +585,7 @@ des_key: ${DES_KEY:secret12}
 ###### 接口示例
 > 地址：[http://localhost:9002/api/orders/checkOut?id=1](http://localhost:9002/api/orders/checkOut?id=1)
 
-**1.5\. cancel**
+**1.6\. cancel**
 ###### 接口功能
 > 将订单由·非取消·状态变更为·取消·状态
 
@@ -599,6 +621,7 @@ des_key: ${DES_KEY:secret12}
 |max |false    |int|分页最大条数|
 |sort |false    |String|排序字段（默认：'id'）|
 |order |false    |String|正序（ESC）/倒序（DESC）|
+|orderId |false    |Long|需要查询的订单id|
 
 > 增加(POST [http://localhost:9002/api/orderExecutions] [管理员])
 

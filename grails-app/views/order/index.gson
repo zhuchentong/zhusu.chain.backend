@@ -1,0 +1,15 @@
+import grails.orm.PagedResultList
+import zhusu.backend.ota.Order
+
+model {
+    List<Order> orderList = []
+}
+
+json {
+    orderList tmpl.order(orderList)
+    if (orderList instanceof PagedResultList) {
+        orderCount((orderList as PagedResultList).totalCount)
+    } else {
+        orderCount(orderList.size())
+    }
+}

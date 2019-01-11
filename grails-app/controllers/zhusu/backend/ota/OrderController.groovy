@@ -92,14 +92,30 @@ class OrderController extends RestfulController<Order> {
     }
 
     /**
-     * 创建阶段进入已确认阶段
+     * 创建阶段进入已付款阶段
+     * @param id
+     */
+    def pay(Long id) {
+        Order order = orderService.get(id)
+        if (!order) {
+            render status: NOT_FOUND
+        } else if (order.status == 'CREATED') {
+            orderService.pay(order, springSecurityService.currentUser as User)
+        } else {
+            render status: FORBIDDEN
+        }
+        render status: OK
+    }
+
+    /**
+     * 已付款阶段进入已确认阶段
      * @param id
      */
     def confirm(Long id) {
         Order order = orderService.get(id)
         if (!order) {
             render status: NOT_FOUND
-        } else if (order.status == 'CREATED') {
+        } else if (order.status == 'PAID') {
             orderService.confirm(order, springSecurityService.currentUser as User)
         } else {
             render status: FORBIDDEN

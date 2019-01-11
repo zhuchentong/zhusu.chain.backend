@@ -32,6 +32,7 @@ class UrlMappings {
         "/api/rooms/orders"(controller: 'Room', action: 'orders')
         "/api/tags"(resources: 'Tag')
         "/api/orders"(resources: 'Order')
+        "/api/orders/pay"(controller: 'Order', action: 'pay')
         "/api/orders/confirm"(controller: 'Order', action: 'confirm')
         "/api/orders/checkIn"(controller: 'Order', action: 'checkIn')
         "/api/orders/checkOut"(controller: 'Order', action: 'checkOut')
