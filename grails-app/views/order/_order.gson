@@ -1,0 +1,8 @@
+import groovy.transform.*
+import zhusu.backend.ota.Order
+
+@Field Order order
+
+json g.render(order, [deep: true]) {
+    attributes order.attributes
+}

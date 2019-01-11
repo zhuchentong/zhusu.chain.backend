@@ -621,6 +621,7 @@ des_key: ${DES_KEY:secret12}
 |max |false    |int|分页最大条数|
 |sort |false    |String|排序字段（默认：'id'）|
 |order |false    |String|正序（ESC）/倒序（DESC）|
+|orderId |false    |Long|需要查询的订单id|
 
 > 增加(POST [http://localhost:9002/api/orderExecutions] [管理员])
 
