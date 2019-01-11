@@ -96,6 +96,9 @@ abstract class OrderService {
             if (args.rooms) {
                 'in'('room', args.rooms)
             }
+            if (args.status) {
+                eq('status', args.status)
+            }
         }
     }
 
