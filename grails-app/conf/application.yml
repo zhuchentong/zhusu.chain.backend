@@ -43,7 +43,7 @@ aliyun:
         accessKeySeret: ${ALIYUN_OSS_ACCESS_KEY_SECRET:OvzBZbn5ZiBLEFO0R1DbHQBgJVJrjG}
         bucket: ${ALIYUN_OSS_BUCKET:zhusu}
         dir: ${ALIYUN_OSS_DIR:}
-        cdnUrl: ${ALIYUN_OSS_CDNURL:https://zhusu.shifudao.com/}
+        cdnUrl: ${ALIYUN_OSS_CDNURL:https://zhusu.xafuneng.com/}
 
 des_key: ${DES_KEY:secret12}
 
