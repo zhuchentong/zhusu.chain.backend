@@ -180,6 +180,6 @@ class OrderController extends RestfulController<Order> {
     }
 
     private static boolean canBeReadBy(Order order, User user) {
-        (user.hasRole('ROLE_YH') && order.buyer == user) || (user.hasRole('ROLE_SELLER') && order.room.hotel.manager == user)
+        (user.hasRole('ROLE_YH') && order.buyer == user) || (user.hasRole('ROLE_SELLER') && order.room.hotel.manager == user) || (user.hasRole('ROLE_ADMIN'))
     }
 }
